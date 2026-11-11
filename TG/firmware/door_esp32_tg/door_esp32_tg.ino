@@ -17,7 +17,7 @@
     MODE_ANY   — спрацьовує будь-що: ривки або людина, що стоїть біля дверей.
 
   Arduino IDE: ядро "esp32 by Espressif Systems", плата "ESP32 Dev Module" (класична ESP32, 2 ядра).
-  Додаткові бібліотеки не потрібні. Wi-Fi, токен і ID чату — у файлі secrets.h поруч.
+  Додаткові бібліотеки не потрібні. Wi-Fi, токен і ID чату — у файлі config.h поруч.
 
   Підключення (збігається з платою TG/schemes/gen_pcb_esp32.py; кожен датчик — у свою групу площадок,
   живлення й земля в групі вже розведені):
@@ -41,7 +41,7 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <Wire.h>
-#include "secrets.h"
+#include "config.h"
 
 // ---------- Режим ----------
 enum SensorMode { MODE_JERK, MODE_RADAR, MODE_BOTH, MODE_ANY };

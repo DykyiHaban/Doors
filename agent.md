@@ -8,7 +8,7 @@ Dveri/
 ├─ main.md        — інформація про обидва проекти
 ├─ TG/            — версія на ESP32, з Telegram
 │  ├─ README.md   — підключення, бот, прошивка
-│  ├─ firmware/   — скетч door_esp32_tg (+ secrets.h)
+│  ├─ firmware/   — скетч door_esp32_tg (+ config.h)
 │  ├─ schemes/    — gen_pcb_esp32.py (генератор плати з розмірами)
 │  ├─ boards/     — складальне креслення
 │  └─ lut/        — мідь для друку 1:1 (PDF A4, SVG)
@@ -25,7 +25,7 @@ Dveri/
 - LUT-файли кладуться в `TG/lut` або `STM32/lut`, залежно від версії.
 - Генератори плат (`schemes/*.py`) пишуть результат поруч із собою: після перегенерації
   перекласти PDF/SVG у `lut/` і `boards/`.
-- `TG/firmware/door_esp32_tg/secrets.h` — Wi-Fi і токен бота; не викладати і не вставляти в чат.
+- `TG/firmware/door_esp32_tg/config.h` — Wi-Fi і токен бота; не викладати і не вставляти в чат.
 - Компіляція — Arduino IDE.
 - Проект PS — окремий, до Dveri не стосується.
 

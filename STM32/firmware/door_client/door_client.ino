@@ -20,18 +20,15 @@
     USB support:         CDC (generic 'Serial' supersede U(S)ART)   <-- обов'язково
     Upload method:       STM32CubeProgrammer (DFU) або ST-Link
 
-  Підключення (збігається з платою STM32/schemes/gen_pcb.py; датчики — дротами на дублюючі площадки):
-    PA5  <- DO модуля вібрації SW-420 (VCC модуля — від 3V3, НЕ від 5 В)
-    PB9  <> SDA, PB8 -> SCL акселерометра ADXL345 / GY-291 (VCC 3V3, CS -> 3V3, SDO -> G)
-    PA4  <- датчик Холла (живлення 3.3 В) АБО вихід SIG п'єзо-вузла на платі (USE_ANALOG = true)
-    PA3  <- TX радара LD2410C
-    PA2  -> RX радара (потрібен лише для запису налаштувань у радар, RADAR_CONFIGURE)
-    PB10 <- OUT радара (запасний канал, якщо дані по UART не приходять)
-    5V   -> VCC радара (радар живиться від 5 В, логіка 3.3 В)
-    PB6  -> RX модуля MP3 (доріжка на платі)
-    PB7  <- TX модуля MP3 (доріжка на платі, через перемичку J1)
-    PA1  <- BUSY модуля MP3 (LOW, поки грає; доріжка на платі)
-    PB1  <- контакт «зачинено»: замкнений на GND = заклад зачинений
+  Підключення (збігається з платою STM32/schemes/gen_pcb.py; кожен датчик — у свою групу площадок,
+  живлення й земля в групі вже розведені):
+    група SW-420:   DO -> PB13, VCC 3.3 В, GND
+    група ADXL345:  SDA -> PB9, SCL -> PB8 (I2C1), VCC 3.3 В, GND, CS (=3.3 В), SDO (=GND)
+    група ХОЛЛ:     OUT -> PB0, VCC 3.3 В, GND; п'єзо-вузол підключається до PB0 перемичкою J2
+    група LD2410C:  TX радара -> PA10, RX радара <- PA9 (USART1), OUT -> PB14, 5V, GND
+    група ЗАЧИНЕНО: SIG -> PB12, GND (замкнено = заклад зачинений)
+    PA2  -> RX модуля MP3 (USART2; TX модуля не потрібен)
+    PA1  <- BUSY модуля MP3 (LOW, поки грає)
     PC13 -- вбудований світлодіод (світиться, поки грає повідомлення)
 
   Картка microSD: FAT32, файл /mp3/0001.mp3
@@ -57,17 +54,17 @@ const uint8_t  JERK_SENSORS_AGREE = 1;
 const uint32_t JERK_MERGE_MS      = 300;   // спрацювання різних датчиків у цьому вікні — один і той самий удар
 
 // ---------- Піни ----------
-#define PIN_ANALOG    PA4
-#define PIN_SW420     PA5
-#define PIN_SDA       PB9              // I2C1; PB6/PB7 зайняті модулем MP3
+#define PIN_ANALOG    PB0              // Холл або SIG п'єзо-вузла (через J2)
+#define PIN_SW420     PB13
+#define PIN_SDA       PB9              // I2C1
 #define PIN_SCL       PB8
 #define PIN_MP3_BUSY  PA1
-#define PIN_ARMED     PB1
+#define PIN_ARMED     PB12
 #define PIN_LED       PC13
-#define PIN_RADAR_OUT PB10
+#define PIN_RADAR_OUT PB14
 
-HardwareSerial mp3Serial(PB7, PB6);    // RX, TX (USART1)
-HardwareSerial radarSerial(PA3, PA2);  // RX, TX (USART2)
+HardwareSerial mp3Serial(PA3, PA2);    // RX, TX (USART2); RX (PA3) на платі не розведений — не потрібен
+HardwareSerial radarSerial(PA10, PA9); // RX, TX (USART1)
 
 // ---------- Загальні налаштування (підбираються на реальних дверях) ----------
 const uint8_t  JERKS_TO_TRIGGER = 2;       // скільки ривків потрібно
@@ -275,7 +272,7 @@ void radarUpdate(uint32_t now) {
     if (digitalRead(PIN_RADAR_OUT) == HIGH) radarSeenAt = now;
     if (!radarSilentReported && now > 10000) {
       radarSilentReported = true;
-      Serial.println(F("# Радар не надсилає даних: перевірте TX радара -> PA3 і живлення 5 В. Працюю за OUT."));
+      Serial.println(F("# Радар не надсилає даних: перевірте групу LD2410C (TX радара -> PA10) і живлення 5 В. Працюю за OUT."));
     }
   }
   bool p = radarSeenAt && now - radarSeenAt < RADAR_GAP_MS;
@@ -463,7 +460,7 @@ void setup() {
   if (sensorActive[S_ANALOG]) Serial.print(F(" Холл/п'єзо"));
   if (RADAR_USED)             Serial.print(radarFound ? F(" радар") : F(" радар-НЕ-відповідає"));
   Serial.println();
-  if (USE_ADXL && !sensorActive[S_ADXL]) Serial.println(F("# ADXL345 не знайдено (SDA->PB9, SCL->PB8, 3V3, CS->3V3, SDO->G)"));
+  if (USE_ADXL && !sensorActive[S_ADXL]) Serial.println(F("# ADXL345 не знайдено (група ADXL345: SDA->PB9, SCL->PB8, VCC 3.3 В)"));
   if (SENSOR_MODE != MODE_RADAR && !sensorActive[S_SW420] && !sensorActive[S_ADXL] && !sensorActive[S_ANALOG])
     Serial.println(F("# Увага: жоден датчик ривка не ввімкнено"));
 
