@@ -1,6 +1,6 @@
 /*
   Проєкт «Двері», варіант з Telegram — усе на одній платі ESP32 (без BlackPill)
-  ESP32 + датчики ривка (SW-420, ADXL345, Холл або п'єзо) + радар LD2410C + HW-247A (DFPlayer Mini)
+  ESP32 + датчики ривка (SW-420, ADXL345, датчик Холла) + радар LD2410C + HW-247A (DFPlayer Mini)
 
   Коли заклад зачинений і хтось смикає двері (або стоїть біля них), модуль програє
   /mp3/0001.mp3, а власник отримує сповіщення в Telegram. Якщо Wi-Fi немає, звук працює
@@ -11,7 +11,7 @@
   приходить у Telegram після ввімкнення.
 
   Режим роботи — SENSOR_MODE нижче:
-    MODE_JERK  — лише ривки (SW-420 / ADXL345 / Холл або п'єзо). Радар не потрібен.
+    MODE_JERK  — лише ривки (SW-420 / ADXL345 / датчик Холла). Радар не потрібен.
     MODE_RADAR — лише радар: людина стоїть ближче RADAR_MAX_CM довше RADAR_DWELL_MS.
     MODE_BOTH  — ривки зараховуються, тільки якщо радар бачить людину поруч (найменше хибних).
     MODE_ANY   — спрацьовує будь-що: ривки або людина, що стоїть біля дверей.
@@ -19,13 +19,13 @@
   Arduino IDE: ядро "esp32 by Espressif Systems", плата "ESP32 Dev Module" (класична ESP32, 2 ядра).
   Додаткові бібліотеки не потрібні. Wi-Fi, токен і ID чату — у файлі config.h поруч.
 
-  Підключення (збігається з платою TG/schemes/gen_pcb_esp32.py; кожен датчик — у свою групу площадок,
-  живлення й земля в групі вже розведені):
-    група SW-420:   DO -> GPIO4, VCC 3.3 В, GND
-    група ADXL345:  SDA -> GPIO19, SCL -> GPIO18, VCC 3.3 В, GND, CS (=3.3 В), SDO (=GND)
-    група ХОЛЛ:     OUT -> GPIO34, VCC 3.3 В, GND; п'єзо-вузол підключається до GPIO34 перемичкою J2
-    група LD2410C:  TX радара -> GPIO16, RX радара <- GPIO17, OUT -> GPIO5, 5V, GND
-    група ЗАЧИНЕНО: SIG -> GPIO15, GND (замкнено = заклад зачинений)
+  Підключення (збігається з платою TG/schemes/gen_pcb_esp32.py). Кожен датчик має свій гвинтовий
+  клемник на нижньому краю плати, зліва направо:
+    ХОЛЛ:     GND, VCC 3.3 В, OUT -> GPIO34
+    РАДАР:    5V, TX радара -> GPIO15, RX радара <- GPIO4, OUT -> GPIO16, GND
+    SW-420:   GND, VCC 3.3 В, DO -> GPIO17
+    ADXL345:  VCC 3.3 В, SDA -> GPIO5, SCL -> GPIO18, GND (на модулі з'єднати CS з VCC, SDO з GND)
+    ЗАЧИНЕНО: SIG -> GPIO19, GND (замкнено = заклад зачинений)
     GPIO23 -> RX модуля MP3 через резистор 1 кОм
     GPIO22 <- TX модуля MP3
     GPIO36 (VP) <- BUSY модуля MP3 (LOW, поки грає)
@@ -33,7 +33,7 @@
     5V/VIN <- 5 В; модуль MP3 теж від 5 В, земля спільна
 
   Аналоговий датчик має бути саме на піні ADC1 (GPIO32..39): ADC2 не працює разом із Wi-Fi.
-  На модулях WROVER піни 16/17 зайняті — радар тоді переносять на інші піни (PIN_RADAR_RX / PIN_RADAR_TX).
+  На модулях WROVER піни 16/17 зайняті — такий модуль із цією платою не підходить.
 
   Картка microSD: FAT32, файл /mp3/0001.mp3
 */
@@ -50,26 +50,26 @@ const SensorMode SENSOR_MODE = MODE_JERK;   // див. опис угорі фа�
 // ---------- Які датчики ривка опитувати ----------
 const bool USE_SW420  = true;    // без модуля вхід підтягнутий до 3.3 В і мовчить — можна лишати true
 const bool USE_ADXL   = true;    // визначається автоматично; якщо не знайдено — просто не використовується
-const bool USE_ANALOG = false;   // Холл / п'єзо: вмикати ТІЛЬКИ якщо датчик підключено (інакше вхід «плаває»)
+const bool USE_ANALOG = false;   // клемник ХОЛЛ: вмикати ТІЛЬКИ якщо датчик підключено (інакше вхід «плаває»)
 // Скільки РІЗНИХ датчиків мають помітити той самий удар, щоб він рахувався ривком.
 // 1 — вистачить будь-якого; 2 — потрібна згода двох (менше хибних, якщо стоять кілька датчиків).
 const uint8_t  JERK_SENSORS_AGREE = 1;
 const uint32_t JERK_MERGE_MS      = 300;   // спрацювання різних датчиків у цьому вікні — один і той самий удар
 
 // ---------- Піни ----------
-const int PIN_ANALOG    = 34;   // Холл або SIG п'єзо-вузла (через J2)
-const int PIN_SW420     = 4;    // DO модуля SW-420
-const int PIN_SDA       = 19;   // ADXL345
+const int PIN_ANALOG    = 34;   // клемник ХОЛЛ, OUT
+const int PIN_SW420     = 17;   // DO модуля SW-420
+const int PIN_SDA       = 5;    // ADXL345
 const int PIN_SCL       = 18;
 const int PIN_MP3_RX    = 22;   // сюди TX модуля
 const int PIN_MP3_TX    = 23;   // звідси на RX модуля (через R1)
 const int PIN_MP3_BUSY  = 36;   // VP; лише вхід — підтяжки немає, BUSY модуль тягне сам
-const int PIN_ARMED     = 15;
+const int PIN_ARMED     = 19;
 const int PIN_LED       = 2;
 const bool LED_ON       = HIGH;
-const int PIN_RADAR_RX  = 16;   // сюди TX радара
-const int PIN_RADAR_TX  = 17;   // звідси на RX радара
-const int PIN_RADAR_OUT = 5;    // OUT радара (HIGH — є людина)
+const int PIN_RADAR_RX  = 15;   // сюди TX радара
+const int PIN_RADAR_TX  = 4;    // звідси на RX радара
+const int PIN_RADAR_OUT = 16;   // OUT радара (HIGH — є людина)
 
 HardwareSerial mp3Serial(2);
 HardwareSerial radarSerial(1);
@@ -88,7 +88,7 @@ const uint32_t SAMPLE_MS        = 5;       // 200 вимірів на секун
 const float    BASE_ALPHA       = 0.001f;  // повільна базова лінія (~5 с)
 const float    BASE_ALPHA_QUICK = 0.05f;   // швидке підлаштування бази (старт, пауза)
 
-// ---------- Холл / п'єзо ----------
+// ---------- Датчик Холла (аналоговий вхід) ----------
 const float    ANALOG_THRESHOLD = 60.0f;   // відхилення від базової лінії, одиниці АЦП (0..4095)
 const float    ANALOG_ALPHA     = 0.25f;   // згладжування шуму
 const uint8_t  ADC_AVG          = 8;       // АЦП у ESP32 шумний — усереднюємо кілька читань
@@ -146,7 +146,7 @@ enum SensorId { S_SW420, S_ADXL, S_ANALOG, S_COUNT };
 uint32_t sensorFiredAt[S_COUNT] = { 0, 0, 0 };
 bool     sensorActive[S_COUNT]  = { false, false, false };
 
-// Детектор для аналогових сигналів (Холл/п'єзо і ADXL345): швидке значення, повільна база, поріг
+// Детектор для аналогових сигналів (Холл і ADXL345): швидке значення, повільна база, поріг
 struct Detector {
   float    alpha, thr;
   float    fast = 0, base = 0, dev = 0;
@@ -421,7 +421,7 @@ void radarUpdate(uint32_t now) {
     if (digitalRead(PIN_RADAR_OUT) == HIGH) radarSeenAt = now;
     if (!radarSilentReported && now > 10000) {
       radarSilentReported = true;
-      Serial.println(F("# Радар не надсилає даних: перевірте групу LD2410C (TX радара -> GPIO16) і живлення 5 В"));
+      Serial.println(F("# Радар не надсилає даних: перевірте клемник РАДАР (TX радара -> GPIO15) і живлення 5 В"));
       tgEvent(EV_RADAR_SILENT);
     }
   }
@@ -616,13 +616,13 @@ void setup() {
   String list;
   if (sensorActive[S_SW420])  list += "SW-420 (якщо підключено), ";
   if (sensorActive[S_ADXL])   list += "ADXL345, ";
-  if (sensorActive[S_ANALOG]) list += "Холл/п'єзо, ";
+  if (sensorActive[S_ANALOG]) list += "Холл, ";
   if (RADAR_USED)             list += radarFound ? "радар, " : "радар НЕ відповідає, ";
   if (list.length()) list.remove(list.length() - 2);
   else list = "жодного";
   snprintf(bootText, sizeof(bootText), "Пристрій увімкнувся. Датчики: %s.", list.c_str());
   Serial.print(F("# ")); Serial.println(bootText);
-  if (USE_ADXL && !sensorActive[S_ADXL]) Serial.println(F("# ADXL345 не знайдено (група ADXL345: SDA->GPIO19, SCL->GPIO18, VCC 3.3 В)"));
+  if (USE_ADXL && !sensorActive[S_ADXL]) Serial.println(F("# ADXL345 не знайдено (клемник ADXL345: SDA->GPIO5, SCL->GPIO18; на модулі CS до VCC, SDO до GND)"));
   if (SENSOR_MODE != MODE_RADAR && !sensorActive[S_SW420] && !sensorActive[S_ADXL] && !sensorActive[S_ANALOG])
     Serial.println(F("# Увага: жоден датчик ривка не ввімкнено"));
   if (TG_REPORT_BOOT) tgEvent(EV_BOOT);

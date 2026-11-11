@@ -7,7 +7,7 @@
 import math, itertools, os
 
 # ---------------- ПАРАМЕТРИ (звір штангенциркулем зі своїми модулями) ----------------
-BOARD_W, BOARD_H = 100.0, 103.0
+BOARD_W, BOARD_H = 100.0, 95.0
 P = 2.54
 BP_X0, BP_YT = 5.0, 39.0          # перший пін верхнього ряду ESP32 (VIN, біля USB)
 BP_ROW = 25.4                     # відстань між рядами ESP32 — ОБОВ'ЯЗКОВО ЗВІР: буває 22.86 / 25.4 / 27.94
@@ -50,8 +50,8 @@ bp = {}
 # Піни підібрано так, щоб усе розвелось на одному шарі без перемичок:
 # MP3 — GPIO23/22 (правий край нижнього ряду), датчики — лівіша частина нижнього ряду,
 # BUSY — VP (GPIO36), аналоговий датчик — D34 (GPIO34) доріжкою по лівому краю плати.
-NETMAP_BOT = {"D23": "TX", "D22": "RX", "3V3": "V3", "GND": "GB", "D15": "ARM", "D4": "SW",
-              "RX2": "RTX", "TX2": "RRX", "D5": "ROUT", "D18": "SCL", "D19": "SDA"}
+NETMAP_BOT = {"D23": "TX", "D22": "RX", "3V3": "V3", "D15": "RTX", "D4": "RRX", "RX2": "ROUT",
+              "TX2": "SW", "D5": "SDA", "D18": "SCL", "D19": "ARM"}
 NETMAP_TOP = {"VIN": "+5V", "GND": "GND", "VP": "BUSY", "D34": "ANA"}
 for i, n in enumerate(BP_TOP):
     x = BP_X0 + i * P
@@ -91,7 +91,7 @@ Y_TX, Y_RX = BRK_B + 2.1, BRK_B + 4.7  # дві шини під нижнім р�
 R1A, R1B = 50.0, 60.16                 # резистор 1 кОм у лінії TX, крок 10.16
 pad(R1A, Y_TX, "TX", PAD_C, HOLE_C, "R1"); pad(R1B, Y_TX, "TXR", PAD_C, HOLE_C, "R1")
 SPKY = 62.5
-pad(df["B_SPK1"], SPKY, "SPK1", PAD_C, HOLE_C, "SPK"); pad(df["B_SPK2"], SPKY, "SPK2", PAD_C, HOLE_C, "SPK")
+pad(df["B_SPK1"], SPKY, "SPK1", 2.6, 1.2, "SPK"); pad(df["B_SPK2"], SPKY, "SPK2", 2.6, 1.2, "SPK")   # клемник 5.08, 2 контакти
 
 # ---------------- доріжки ----------------
 # шилд -> D1
@@ -114,64 +114,61 @@ track("BUSY", W_SIG, (df["T_BUSY"], DF_YT), (df["T_BUSY"], 46.2), (72.5, 46.2), 
 track("SPK1", W_SIG, (df["B_SPK1"], DF_YB), (df["B_SPK1"], SPKY))
 track("SPK2", W_SIG, (df["B_SPK2"], DF_YB), (df["B_SPK2"], SPKY))
 
-# ---------------- зона груп датчиків (під ESP32) ----------------
-# Кожне коло — горизонтальна «смуга»: спускається від своєї ніжки і йде праворуч.
-# Що лівіша ніжка, то нижча смуга, тож смуги не перетинаються. Площадки групи стоять на смугах своїх кіл.
-SB = {"SDA": 74.5, "SCL": 76.4, "ROUT": 78.3, "RRX": 80.2, "RTX": 82.1, "SW": 84.0, "ARM": 85.9,
-      "GB": 88.44, "V3": 90.98, "+5V": 93.52, "ANA": 96.06}
-SRC = {"SDA": bp["B_D19"], "SCL": bp["B_D18"], "ROUT": bp["B_D5"], "RRX": bp["B_TX2"], "RTX": bp["B_RX2"],
-       "SW": bp["B_D4"], "ARM": bp["B_D15"], "GB": bp["B_GND"], "V3": bp["B_3V3"]}
-GX = {"ARM": 31.5, "SW": 37.5, "RAD": 44.0, "ADXL": 55.0, "HALL": 64.5}
-GROUPS = [   # (назва, [(коло, x, підпис)])
-    ("ЗАЧИНЕНО", [("ARM", GX["ARM"], "SIG"), ("GB", GX["ARM"], "GND")]),
-    ("SW-420", [("SW", GX["SW"], "DO"), ("GB", GX["SW"], "GND"), ("V3", GX["SW"], "VCC")]),
-    ("LD2410C", [("RTX", GX["RAD"], "TX"), ("RRX", GX["RAD"] + P, "RX"), ("ROUT", GX["RAD"] + 2 * P, "OUT"),
-                 ("GB", GX["RAD"] + P, "GND"), ("+5V", GX["RAD"] + 2 * P, "5V")]),
-    ("ADXL345", [("SCL", GX["ADXL"], "SCL"), ("SDA", GX["ADXL"] + P, "SDA"), ("GB", GX["ADXL"], "GND"),
-                 ("GB", GX["ADXL"] + P, "SDO"), ("V3", GX["ADXL"], "VCC"), ("V3", GX["ADXL"] + P, "CS")]),
-    ("ХОЛЛ", [("GB", GX["HALL"], "GND"), ("V3", GX["HALL"], "VCC"), ("ANA", GX["HALL"], "OUT")]),
-]
-band_end = {}
-for title, items in GROUPS:
-    for net, x, lab in items:
-        pad(x, SB[net], net, label=lab)
-        band_end[net] = max(band_end.get(net, 0), x)
-J2X = 69.5                                   # перемичка J2: аналоговий вхід <- п'єзо-вузол
-band_end["ANA"] = J2X
-for net, xs in SRC.items():
-    track(net, W_SIG, (xs, BRK_B), (xs, SB[net]), (band_end[net], SB[net]))
-# 5 В для радара: від шини +5V під модулем, лівим краєм униз
-X_P5, X_ANA, Y_ANA_TOP = 2.7, 1.1, 31.6
-track("+5V", W_PWR, (bp["T_VIN"], Y_5), (X_P5, Y_5), (X_P5, SB["+5V"]), (band_end["+5V"], SB["+5V"]))
-# аналоговий датчик: D34 угору, лівим краєм плати вниз до смуги ANA
-track("ANA", W_SIG, (bp["T_D34"], BRK_T), (bp["T_D34"], Y_ANA_TOP), (X_ANA, Y_ANA_TOP),
-      (X_ANA, SB["ANA"]), (J2X, SB["ANA"]))
+# ---------------- ряд гвинтових клемників на нижньому краю ----------------
+# Клемники KF301 / DG301 з кроком 5.08 мм стикуються впритул: 3 + 5 + 3 + 4 + 2 контакти.
+# Над рядом — сигнальні «смуги» (що лівіша ніжка-джерело, то нижча смуга, тому вони не перетинаються).
+# Під рядом, біля самого краю, — шина GND (приходить від плеєра правим краєм) і відрізки 3,3 В,
+# які пірнають між площадками клем: при кроку 5.08 між ними проходить доріжка 0.8 мм.
+TB_P = 5.08
+PAD_T, HOLE_T = 2.6, 1.2
+TB_X0 = 7.5
+Y_ROW = BOARD_H - 5.1
+ROW = [  # (блок, підпис контакту, коло) — зліва направо
+    ("ХОЛЛ", "GND", "GND"), ("ХОЛЛ", "VCC", "V3"), ("ХОЛЛ", "OUT", "ANA"),
+    ("РАДАР", "5V", "+5V"), ("РАДАР", "TX", "RTX"), ("РАДАР", "RX", "RRX"), ("РАДАР", "OUT", "ROUT"),
+    ("РАДАР", "GND", "GND"),
+    ("SW-420", "GND", "GND"), ("SW-420", "VCC", "V3"), ("SW-420", "DO", "SW"),
+    ("ADXL345", "VCC", "V3"), ("ADXL345", "SDA", "SDA"), ("ADXL345", "SCL", "SCL"), ("ADXL345", "GND", "GND"),
+    ("ЗАЧИНЕНО", "SIG", "ARM"), ("ЗАЧИНЕНО", "GND", "GND")]
+tx = [TB_X0 + i * TB_P for i in range(len(ROW))]
+for (blk, lab, net), x in zip(ROW, tx):
+    pad(x, Y_ROW, net, PAD_T, HOLE_T, lab)
+LV0, LVP = Y_ROW - 2.4, 1.45              # рівень найнижчої смуги і крок смуг
+Y_B1, Y_B2 = Y_ROW + 2.4, Y_ROW + 3.9      # під рядом: відрізки 3,3 В і шина GND
 
-# ---------------- п'єзо-вузол (пікове утримання) ----------------
-# П'єзо+ -> D2 (1N4148) -> вузол PK; PK–GND: стабілітрон ZD 3.3 В, C2 100 нФ, R3 1 МОм.
-# Перемичку J2 (PK -> аналоговий вхід) ставити ЛИШЕ якщо стоїть п'єзо, а не датчик Холла.
-PZ_X, PZ_Y, PZ_S = 74.0, 86.0, 2.85    # лівий верхній пад, крок колонок
-PZ_YB = PZ_Y + 7.62
-pzx = [PZ_X + k * PZ_S for k in range(6)]
-pad(pzx[0], PZ_Y, "PK", PAD_C, HOLE_C, "SIG"); pad(pzx[1], PZ_Y, "PK", PAD_C, HOLE_C, "D2 K")
-pad(pzx[3], PZ_Y, "PK", PAD_C, HOLE_C, "ZD K"); pad(pzx[4], PZ_Y, "PK", PAD_C, HOLE_C, "C2")
-pad(pzx[5], PZ_Y, "PK", PAD_C, HOLE_C, "R3")
-pad(pzx[0], PZ_YB, "PZP", PAD_C, HOLE_C, "PZ+"); pad(pzx[1], PZ_YB, "PZP", PAD_C, HOLE_C, "D2 A")
-pad(pzx[2], PZ_YB, "GND", PAD_C, HOLE_C, "PZ-"); pad(pzx[3], PZ_YB, "GND", PAD_C, HOLE_C, "ZD A")
-pad(pzx[4], PZ_Y + 5.08, "GND", PAD_C, HOLE_C, "C2"); pad(pzx[5], PZ_YB, "GND", PAD_C, HOLE_C, "R3")
-track("PK", W_SIG, (pzx[0], PZ_Y), (pzx[5], PZ_Y))
-track("PZP", W_SIG, (pzx[0], PZ_YB), (pzx[1], PZ_YB))
-track("GND", W_SIG, (pzx[2], PZ_YB), (pzx[5], PZ_YB))
-track("GND", W_SIG, (pzx[4], PZ_Y + 5.08), (pzx[4], PZ_YB))
-track("GND", W_SIG, (pzx[5], PZ_YB), (xG, PZ_YB), (xG, DF_YB))   # до GND плеєра правим краєм
-J2Y = PZ_Y                                                         # J2: дротяна перемичка між J2A і J2B
-pad(J2X, SB["ANA"], "ANA", PAD_C, HOLE_C, "J2"); pad(J2X, J2Y, "PK", PAD_C, HOLE_C, "J2")
-track("PK", W_SIG, (J2X, J2Y), (pzx[0], PZ_Y))
-# R2 1 МОм паралельно п'єзодиску: без нього діод D2 лишає диск зарядженим і другий удар слабшає
-PZ_YR = PZ_YB + 2.9
-pad(pzx[0], PZ_YR, "PZP", PAD_C, HOLE_C, "R2"); pad(pzx[2], PZ_YR, "GND", PAD_C, HOLE_C, "R2")
-track("PZP", W_SIG, (pzx[0], PZ_YB), (pzx[0], PZ_YR))
-track("GND", W_SIG, (pzx[2], PZ_YB), (pzx[2], PZ_YR))
+
+def lv(k):
+    return LV0 - k * LVP
+
+
+def between(i):                                # середина проміжку між клемами i та i+1
+    return (tx[i] + tx[i + 1]) / 2
+
+
+# аналоговий датчик: D34 угору, лівим краєм плати вниз (найнижча смуга) -> ХОЛЛ OUT
+X_ANA, X_P5, Y_ANA_TOP = 1.1, 2.7, 31.6
+track("ANA", W_SIG, (bp["T_D34"], BRK_T), (bp["T_D34"], Y_ANA_TOP), (X_ANA, Y_ANA_TOP), (X_ANA, lv(0)),
+      (tx[2], lv(0)), (tx[2], Y_ROW))
+# 5 В для радара: від шини +5V під модулем, лівим краєм униз
+track("+5V", W_PWR, (bp["T_VIN"], Y_5), (X_P5, Y_5), (X_P5, lv(1)), (tx[3], lv(1)), (tx[3], Y_ROW))
+# 3,3 В: від ніжки 3V3 до проміжку між «5V» і «TX» радара, крізь ряд униз;
+# під рядом ліворуч до ХОЛЛ VCC і праворуч до проміжку перед «GND» радара, там угору,
+# над двома клемами GND до SW-420 VCC, знову під рядом до ADXL345 VCC
+g1, g2 = between(3), between(6)
+track("V3", W_SIG, (bp["B_3V3"], BRK_B), (bp["B_3V3"], lv(2)), (g1, lv(2)), (g1, Y_B1))
+track("V3", W_SIG, (tx[1], Y_ROW), (tx[1], Y_B1), (g2, Y_B1), (g2, lv(0)), (tx[9], lv(0)), (tx[9], Y_ROW),
+      (tx[9], Y_B1), (tx[11], Y_B1), (tx[11], Y_ROW))
+# сигнали з нижнього ряду ESP32
+SIG = [("RTX", "B_D15", 4), ("RRX", "B_D4", 5), ("ROUT", "B_RX2", 6), ("SW", "B_TX2", 10),
+       ("SDA", "B_D5", 12), ("SCL", "B_D18", 13), ("ARM", "B_D19", 15)]
+for k, (net, key, i) in enumerate(SIG):
+    track(net, W_SIG, (bp[key], BRK_B), (bp[key], lv(3 + k)), (tx[i], lv(3 + k)), (tx[i], Y_ROW))
+# GND: від плеєра правим краєм до шини під рядом клем
+X_GR = 92.4
+track("GND", W_PWR, (xG, DF_YB), (xG, 65.5), (X_GR, 65.5), (X_GR, Y_B2), (tx[0], Y_B2))
+for (blk, lab, net), x in zip(ROW, tx):
+    if net == "GND":
+        track("GND", W_PWR, (x, Y_B2), (x, Y_ROW))
 
 # кріпильні отвори плати (М3)
 MOUNT = [(3.5, 3.5), (96.5, 3.5), (3.5, BOARD_H - 3.5), (96.5, BOARD_H - 3.5)]
@@ -346,43 +343,39 @@ a.append('<circle cx="%g" cy="%g" r="4" fill="#335" fill-opacity="0.25" stroke="
 a.append(T(C1X + 4.6, (Y_GND + Y_5) / 2 + 0.6, "C1 470µ", 1.5, "start", fill="#000", bold=True))
 a.append(T(C1X - 1.6, Y_5 + 0.8, "+", 2.2, "end", fill="#c00", bold=True))
 # SPK
-a.append(T((df["B_SPK1"] + df["B_SPK2"]) / 2, SPKY + 0.6, "SPK", 1.6, fill="#000", bold=True))
-# п'єзо-вузол
-for k, dy in ((1, 0), (3, 0)):                         # D2, ZD — діоди стоячи по вертикалі, катод зверху
-    a.append('<rect x="%.2f" y="%.2f" width="1.8" height="3.6" fill="#c33" fill-opacity="0.5" stroke="#000" stroke-width="0.2"/>' % (pzx[k] - 0.9, PZ_Y + 2.0))
-    a.append('<rect x="%.2f" y="%.2f" width="1.8" height="0.6" fill="#000"/>' % (pzx[k] - 0.9, PZ_Y + 2.0))
-a.append('<rect x="%.2f" y="%.2f" width="2.2" height="2.4" fill="#e9b949" stroke="#000" stroke-width="0.2"/>' % (pzx[4] - 1.1, PZ_Y + 1.35))
-a.append('<rect x="%.2f" y="%.2f" width="1.8" height="4.0" fill="#c9a66b" stroke="#000" stroke-width="0.2"/>' % (pzx[5] - 0.9, PZ_Y + 1.8))
-a.append(T(pzx[1], PZ_Y - 1.6, "D2", 1.3, fill="#000", bold=True))
-a.append(T(pzx[3], PZ_Y - 1.6, "ZD", 1.3, fill="#000", bold=True))
-a.append(T(pzx[4], PZ_Y - 1.6, "C2", 1.3, fill="#000", bold=True))
-a.append(T(pzx[5], PZ_Y - 1.6, "R3", 1.3, fill="#000", bold=True))
-a.append(T(pzx[0], PZ_Y - 1.6, "SIG", 1.3, fill="#06c", bold=True))
-a.append(T(pzx[0] - 1.5, PZ_YB + 0.5, "PZ+", 1.3, "end", fill="#06c", bold=True))
-a.append(T(pzx[2], PZ_YB - 1.7, "PZ−", 1.3, fill="#06c", bold=True))
-a.append('<rect x="%.2f" y="%.2f" width="%.2f" height="1.6" fill="#c9a66b" stroke="#000" stroke-width="0.2"/>' % (pzx[0] + 1.3, PZ_YR - 0.8, pzx[2] - pzx[0] - 2.6))
-a.append(T(pzx[2] + 1.6, PZ_YR + 0.5, "R2 1M", 1.3, "start", fill="#000", bold=True))
-# J2
-a.append('<line x1="%g" y1="%g" x2="%g" y2="%g" stroke="#06c" stroke-width="0.6" stroke-dasharray="1 0.6"/>' % (J2X, SB["ANA"], J2X, J2Y))
-a.append(T(J2X - 1.6, (SB["ANA"] + J2Y) / 2, "J2 (лише з п'єзо)", 1.2, "end", rot=-90, fill="#06c", bold=True))
-# групи датчиків
-PADCOL = {"V3": "#c00", "+5V": "#c00", "GB": "#000"}
-for title, items in GROUPS:
-    xs = [x for _, x, _ in items]; ys = [SB[n] for n, _, _ in items]
-    x0, x1, y0, y1 = min(xs) - 1.4, max(xs) + 3.9, min(ys) - 1.5, max(ys) + 1.5
-    a.append('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f" fill="#06c" fill-opacity="0.07" stroke="#06c" '
-             'stroke-width="0.3" stroke-dasharray="1 0.6"/>' % (x0, y0, x1 - x0, y1 - y0))
-    a.append(T(x0, y0 - 0.6, title, 1.5, "start", fill="#06c", bold=True))
-    for net, x, lab in items:
-        a.append(T(x + 1.15, SB[net] + 0.45, lab, 1.05, "start", fill=PADCOL.get(net, "#06c"), bold=True))
-a.append(T(16, BOARD_H - 1.6, "Групи датчиків: SW-420 · ADXL345 · LD2410C · Холл · «зачинено»", 1.6, "start", fill="#06c", bold=True))
+a.append('<rect x="%.2f" y="%.2f" width="%.2f" height="7.4" fill="#1a7f37" fill-opacity="0.22" stroke="#1a7f37" stroke-width="0.35"/>'
+         % (df["B_SPK1"] - 2.4, SPKY - 3.4, df["B_SPK2"] - df["B_SPK1"] + 4.4))
+a.append(T((df["B_SPK1"] + df["B_SPK2"]) / 2, SPKY + 5.9, "ДИНАМІК", 1.9, fill="#1a7f37", bold=True))
+# клемники: корпус, назва блоку, підпис кожного контакту
+HALO = ' stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round"'
+NETCOL = {"GND": "#000", "V3": "#c00", "+5V": "#c00", "P5Z": "#c00"}
+blocks = []
+for i, (blk, lab, net) in enumerate(ROW):
+    if not blocks or blocks[-1][0] != blk:
+        blocks.append([blk, i, i])
+    blocks[-1][2] = i
+for n, (blk, i0, i1) in enumerate(blocks):
+    x0, x1 = tx[i0] - TB_P / 2 + 0.15, tx[i1] + TB_P / 2 - 0.15
+    a.append('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f" fill="#1a7f37" fill-opacity="0.22" stroke="#1a7f37" '
+             'stroke-width="0.35"/>' % (x0, Y_ROW - 3.4, x1 - x0, BOARD_H - Y_ROW + 3.4))
+    a.append('<text x="%.2f" y="%.2f" font-family="Arial,sans-serif" font-size="2.3" font-weight="bold" '
+             'text-anchor="middle" fill="#1a7f37">%s</text>' % ((x0 + x1) / 2, BOARD_H + 2.6, blk))
+    a.append('<line x1="%.2f" y1="%.2f" x2="%.2f" y2="%.2f" stroke="#1a7f37" stroke-width="0.4"/>'
+             % (x0 + 0.4, BOARD_H + 0.6, x1 - 0.4, BOARD_H + 0.6))
+for (blk, lab, net), x in zip(ROW, tx):
+    a.append('<text x="%.2f" y="%.2f" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" '
+             'text-anchor="start" fill="%s"%s transform="rotate(-90 %.2f %.2f)">%s</text>'
+             % (x + 0.65, Y_ROW - 2.0, NETCOL.get(net, "#06c"), HALO, x + 0.65, Y_ROW - 2.0, lab))
 # рамка-заголовок
 a.append(T(BOARD_W / 2, -3.5, "Вид з боку деталей · плата %g×%g мм · мідь (жовта) — на зворотному боці" % (BOARD_W, BOARD_H), 2.6, bold=True))
-a.append(T(BOARD_W / 2, BOARD_H + 3.6, "Кожен датчик паяється у свою групу: VCC/5V — живлення, GND — земля, решта — сигнали. ADXL345: CS і SDO вже з'єднані на платі.", 1.6))
-a.append(T(BOARD_W / 2, BOARD_H + 5.9, "SW-420, ADXL345, Холл — від 3,3 В (VCC групи); радар — від 5 В. Можна ставити будь-які датчики, хоч усі одразу.", 1.7))
-a.append(T(BOARD_W / 2, BOARD_H + 8.2, "П'єзо-вузол (D2 1N4148, ZD 3,3 В, C2 100 нФ, R2, R3 1 МОм): диск на PZ+/PZ−, перемичка J2 — лише замість Холла", 1.7))
+a.append(T(BOARD_W / 2, BOARD_H + 6.2, "Гвинтові клемники KF301 / DG301, крок 5,08 мм: 3 + 5 + 3 + 4 + 2 контакти, стоять упритул уздовж нижнього краю.", 1.7))
+a.append(T(BOARD_W / 2, BOARD_H + 8.5, "VCC = 3,3 В (ХОЛЛ, SW-420, ADXL345); радар живиться від 5V. На модулі ADXL345 з'єднати CS з VCC, SDO з GND.", 1.7))
 a.append("</svg>")
 open(os.path.join(OUT, "esp32_pcb_assembly.svg"), "w", encoding="utf-8").write("\n".join(a))
+# те саме креслення в масштабі 1:1 — надрукувати й приклеїти на бік деталей як підписи клем
+a[0] = ('<svg xmlns="http://www.w3.org/2000/svg" width="%gmm" height="%gmm" viewBox="-6 -8 %g %g">'
+        % (BOARD_W + 12, BOARD_H + 17, BOARD_W + 12, BOARD_H + 17))
+open(os.path.join(OUT, "esp32_pcb_labels_1to1.svg"), "w", encoding="utf-8").write("\n".join(a))
 
 # ---------------- PDF A4 для друку 1:1 ----------------
 K = 72 / 25.4

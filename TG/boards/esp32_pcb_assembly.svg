@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="246.4mm" height="264mm" viewBox="-6 -8 112 120">
-<rect x="-6" y="-8" width="112" height="120" fill="#fff"/>
-<rect x="0" y="0" width="100" height="103" fill="#f4efdc" stroke="#333" stroke-width="0.3"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="246.4mm" height="246.4mm" viewBox="-6 -8 112 112">
+<rect x="-6" y="-8" width="112" height="112" fill="#fff"/>
+<rect x="0" y="0" width="100" height="95" fill="#f4efdc" stroke="#333" stroke-width="0.3"/>
 <line x1="5.000" y1="39.000" x2="5.000" y2="35.500" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
 <line x1="7.540" y1="39.000" x2="7.540" y2="35.500" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
 <line x1="10.080" y1="39.000" x2="10.080" y2="35.500" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
@@ -58,40 +58,56 @@
 <line x1="38.020" y1="33.200" x2="38.020" y2="35.500" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
 <line x1="92.700" y1="57.780" x2="92.700" y2="62.500" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
 <line x1="97.780" y1="57.780" x2="97.780" y2="62.500" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="27.860" y1="67.900" x2="27.860" y2="74.500" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="27.860" y1="74.500" x2="57.540" y2="74.500" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="25.320" y1="67.900" x2="25.320" y2="76.400" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="25.320" y1="76.400" x2="55.000" y2="76.400" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="22.780" y1="67.900" x2="22.780" y2="78.300" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="22.780" y1="78.300" x2="49.080" y2="78.300" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="20.240" y1="67.900" x2="20.240" y2="80.200" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="20.240" y1="80.200" x2="46.540" y2="80.200" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="17.700" y1="67.900" x2="17.700" y2="82.100" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="17.700" y1="82.100" x2="44.000" y2="82.100" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="15.160" y1="67.900" x2="15.160" y2="84.000" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="15.160" y1="84.000" x2="37.500" y2="84.000" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="10.080" y1="67.900" x2="10.080" y2="85.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="10.080" y1="85.900" x2="31.500" y2="85.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="7.540" y1="67.900" x2="7.540" y2="88.440" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="7.540" y1="88.440" x2="64.500" y2="88.440" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="5.000" y1="67.900" x2="5.000" y2="90.980" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="5.000" y1="90.980" x2="64.500" y2="90.980" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="5.000" y1="54.160" x2="2.700" y2="54.160" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
-<line x1="2.700" y1="54.160" x2="2.700" y2="93.520" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
-<line x1="2.700" y1="93.520" x2="49.080" y2="93.520" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
 <line x1="32.940" y1="35.500" x2="32.940" y2="31.600" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
 <line x1="32.940" y1="31.600" x2="1.100" y2="31.600" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="1.100" y1="31.600" x2="1.100" y2="96.060" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="1.100" y1="96.060" x2="69.500" y2="96.060" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="74.000" y1="86.000" x2="88.250" y2="86.000" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="74.000" y1="93.620" x2="76.850" y2="93.620" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="79.700" y1="93.620" x2="88.250" y2="93.620" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="85.400" y1="91.080" x2="85.400" y2="93.620" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="88.250" y1="93.620" x2="95.240" y2="93.620" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="95.240" y1="93.620" x2="95.240" y2="57.780" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="69.500" y1="86.000" x2="74.000" y2="86.000" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="74.000" y1="93.620" x2="74.000" y2="96.520" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
-<line x1="79.700" y1="93.620" x2="79.700" y2="96.520" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="1.100" y1="31.600" x2="1.100" y2="87.500" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="1.100" y1="87.500" x2="17.660" y2="87.500" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="17.660" y1="87.500" x2="17.660" y2="89.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="5.000" y1="54.160" x2="2.700" y2="54.160" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
+<line x1="2.700" y1="54.160" x2="2.700" y2="86.050" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
+<line x1="2.700" y1="86.050" x2="22.740" y2="86.050" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
+<line x1="22.740" y1="86.050" x2="22.740" y2="89.900" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
+<line x1="5.000" y1="67.900" x2="5.000" y2="84.600" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="5.000" y1="84.600" x2="25.280" y2="84.600" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="25.280" y1="84.600" x2="25.280" y2="92.300" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="12.580" y1="89.900" x2="12.580" y2="92.300" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="12.580" y1="92.300" x2="40.520" y2="92.300" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="40.520" y1="92.300" x2="40.520" y2="87.500" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="40.520" y1="87.500" x2="53.220" y2="87.500" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="53.220" y1="87.500" x2="53.220" y2="89.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="53.220" y1="89.900" x2="53.220" y2="92.300" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="53.220" y1="92.300" x2="63.380" y2="92.300" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="63.380" y1="92.300" x2="63.380" y2="89.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="10.080" y1="67.900" x2="10.080" y2="83.150" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="10.080" y1="83.150" x2="27.820" y2="83.150" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="27.820" y1="83.150" x2="27.820" y2="89.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="15.160" y1="67.900" x2="15.160" y2="81.700" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="15.160" y1="81.700" x2="32.900" y2="81.700" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="32.900" y1="81.700" x2="32.900" y2="89.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="17.700" y1="67.900" x2="17.700" y2="80.250" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="17.700" y1="80.250" x2="37.980" y2="80.250" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="37.980" y1="80.250" x2="37.980" y2="89.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="20.240" y1="67.900" x2="20.240" y2="78.800" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="20.240" y1="78.800" x2="58.300" y2="78.800" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="58.300" y1="78.800" x2="58.300" y2="89.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="22.780" y1="67.900" x2="22.780" y2="77.350" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="22.780" y1="77.350" x2="68.460" y2="77.350" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="68.460" y1="77.350" x2="68.460" y2="89.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="25.320" y1="67.900" x2="25.320" y2="75.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="25.320" y1="75.900" x2="73.540" y2="75.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="73.540" y1="75.900" x2="73.540" y2="89.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="27.860" y1="67.900" x2="27.860" y2="74.450" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="27.860" y1="74.450" x2="83.700" y2="74.450" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="83.700" y1="74.450" x2="83.700" y2="89.900" stroke="#d9a441" stroke-width="0.80" stroke-linecap="round"/>
+<line x1="95.240" y1="57.780" x2="95.240" y2="65.500" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
+<line x1="95.240" y1="65.500" x2="92.400" y2="65.500" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
+<line x1="92.400" y1="65.500" x2="92.400" y2="93.800" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
+<line x1="92.400" y1="93.800" x2="7.500" y2="93.800" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
+<line x1="7.500" y1="93.800" x2="7.500" y2="89.900" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
+<line x1="43.060" y1="93.800" x2="43.060" y2="89.900" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
+<line x1="48.140" y1="93.800" x2="48.140" y2="89.900" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
+<line x1="78.620" y1="93.800" x2="78.620" y2="89.900" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
+<line x1="88.780" y1="93.800" x2="88.780" y2="89.900" stroke="#d9a441" stroke-width="1.00" stroke-linecap="round"/>
 <circle cx="5.000" cy="39.000" r="0.950" fill="#d9a441"/>
 <circle cx="5.000" cy="35.500" r="0.950" fill="#d9a441"/>
 <circle cx="7.540" cy="39.000" r="0.950" fill="#d9a441"/>
@@ -176,46 +192,29 @@
 <circle cx="62.000" cy="54.160" r="1.150" fill="#d9a441"/>
 <circle cx="50.000" cy="70.000" r="1.150" fill="#d9a441"/>
 <circle cx="60.160" cy="70.000" r="1.150" fill="#d9a441"/>
-<circle cx="92.700" cy="62.500" r="1.150" fill="#d9a441"/>
-<circle cx="97.780" cy="62.500" r="1.150" fill="#d9a441"/>
-<circle cx="31.500" cy="85.900" r="0.950" fill="#d9a441"/>
-<circle cx="31.500" cy="88.440" r="0.950" fill="#d9a441"/>
-<circle cx="37.500" cy="84.000" r="0.950" fill="#d9a441"/>
-<circle cx="37.500" cy="88.440" r="0.950" fill="#d9a441"/>
-<circle cx="37.500" cy="90.980" r="0.950" fill="#d9a441"/>
-<circle cx="44.000" cy="82.100" r="0.950" fill="#d9a441"/>
-<circle cx="46.540" cy="80.200" r="0.950" fill="#d9a441"/>
-<circle cx="49.080" cy="78.300" r="0.950" fill="#d9a441"/>
-<circle cx="46.540" cy="88.440" r="0.950" fill="#d9a441"/>
-<circle cx="49.080" cy="93.520" r="0.950" fill="#d9a441"/>
-<circle cx="55.000" cy="76.400" r="0.950" fill="#d9a441"/>
-<circle cx="57.540" cy="74.500" r="0.950" fill="#d9a441"/>
-<circle cx="55.000" cy="88.440" r="0.950" fill="#d9a441"/>
-<circle cx="57.540" cy="88.440" r="0.950" fill="#d9a441"/>
-<circle cx="55.000" cy="90.980" r="0.950" fill="#d9a441"/>
-<circle cx="57.540" cy="90.980" r="0.950" fill="#d9a441"/>
-<circle cx="64.500" cy="88.440" r="0.950" fill="#d9a441"/>
-<circle cx="64.500" cy="90.980" r="0.950" fill="#d9a441"/>
-<circle cx="64.500" cy="96.060" r="0.950" fill="#d9a441"/>
-<circle cx="74.000" cy="86.000" r="1.150" fill="#d9a441"/>
-<circle cx="76.850" cy="86.000" r="1.150" fill="#d9a441"/>
-<circle cx="82.550" cy="86.000" r="1.150" fill="#d9a441"/>
-<circle cx="85.400" cy="86.000" r="1.150" fill="#d9a441"/>
-<circle cx="88.250" cy="86.000" r="1.150" fill="#d9a441"/>
-<circle cx="74.000" cy="93.620" r="1.150" fill="#d9a441"/>
-<circle cx="76.850" cy="93.620" r="1.150" fill="#d9a441"/>
-<circle cx="79.700" cy="93.620" r="1.150" fill="#d9a441"/>
-<circle cx="82.550" cy="93.620" r="1.150" fill="#d9a441"/>
-<circle cx="85.400" cy="91.080" r="1.150" fill="#d9a441"/>
-<circle cx="88.250" cy="93.620" r="1.150" fill="#d9a441"/>
-<circle cx="69.500" cy="96.060" r="1.150" fill="#d9a441"/>
-<circle cx="69.500" cy="86.000" r="1.150" fill="#d9a441"/>
-<circle cx="74.000" cy="96.520" r="1.150" fill="#d9a441"/>
-<circle cx="79.700" cy="96.520" r="1.150" fill="#d9a441"/>
+<circle cx="92.700" cy="62.500" r="1.300" fill="#d9a441"/>
+<circle cx="97.780" cy="62.500" r="1.300" fill="#d9a441"/>
+<circle cx="7.500" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="12.580" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="17.660" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="22.740" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="27.820" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="32.900" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="37.980" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="43.060" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="48.140" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="53.220" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="58.300" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="63.380" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="68.460" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="73.540" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="78.620" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="83.700" cy="89.900" r="1.300" fill="#d9a441"/>
+<circle cx="88.780" cy="89.900" r="1.300" fill="#d9a441"/>
 <circle cx="3.500" cy="3.500" r="2.200" fill="#d9a441"/>
 <circle cx="96.500" cy="3.500" r="2.200" fill="#d9a441"/>
-<circle cx="3.500" cy="99.500" r="2.200" fill="#d9a441"/>
-<circle cx="96.500" cy="99.500" r="2.200" fill="#d9a441"/>
+<circle cx="3.500" cy="91.500" r="2.200" fill="#d9a441"/>
+<circle cx="96.500" cy="91.500" r="2.200" fill="#d9a441"/>
 <circle cx="5.000" cy="39.000" r="0.350" fill="#fff"/>
 <circle cx="5.000" cy="35.500" r="0.350" fill="#fff"/>
 <circle cx="7.540" cy="39.000" r="0.350" fill="#fff"/>
@@ -300,47 +299,30 @@
 <circle cx="62.000" cy="54.160" r="0.400" fill="#fff"/>
 <circle cx="50.000" cy="70.000" r="0.400" fill="#fff"/>
 <circle cx="60.160" cy="70.000" r="0.400" fill="#fff"/>
-<circle cx="92.700" cy="62.500" r="0.400" fill="#fff"/>
-<circle cx="97.780" cy="62.500" r="0.400" fill="#fff"/>
-<circle cx="31.500" cy="85.900" r="0.350" fill="#fff"/>
-<circle cx="31.500" cy="88.440" r="0.350" fill="#fff"/>
-<circle cx="37.500" cy="84.000" r="0.350" fill="#fff"/>
-<circle cx="37.500" cy="88.440" r="0.350" fill="#fff"/>
-<circle cx="37.500" cy="90.980" r="0.350" fill="#fff"/>
-<circle cx="44.000" cy="82.100" r="0.350" fill="#fff"/>
-<circle cx="46.540" cy="80.200" r="0.350" fill="#fff"/>
-<circle cx="49.080" cy="78.300" r="0.350" fill="#fff"/>
-<circle cx="46.540" cy="88.440" r="0.350" fill="#fff"/>
-<circle cx="49.080" cy="93.520" r="0.350" fill="#fff"/>
-<circle cx="55.000" cy="76.400" r="0.350" fill="#fff"/>
-<circle cx="57.540" cy="74.500" r="0.350" fill="#fff"/>
-<circle cx="55.000" cy="88.440" r="0.350" fill="#fff"/>
-<circle cx="57.540" cy="88.440" r="0.350" fill="#fff"/>
-<circle cx="55.000" cy="90.980" r="0.350" fill="#fff"/>
-<circle cx="57.540" cy="90.980" r="0.350" fill="#fff"/>
-<circle cx="64.500" cy="88.440" r="0.350" fill="#fff"/>
-<circle cx="64.500" cy="90.980" r="0.350" fill="#fff"/>
-<circle cx="64.500" cy="96.060" r="0.350" fill="#fff"/>
-<circle cx="74.000" cy="86.000" r="0.400" fill="#fff"/>
-<circle cx="76.850" cy="86.000" r="0.400" fill="#fff"/>
-<circle cx="82.550" cy="86.000" r="0.400" fill="#fff"/>
-<circle cx="85.400" cy="86.000" r="0.400" fill="#fff"/>
-<circle cx="88.250" cy="86.000" r="0.400" fill="#fff"/>
-<circle cx="74.000" cy="93.620" r="0.400" fill="#fff"/>
-<circle cx="76.850" cy="93.620" r="0.400" fill="#fff"/>
-<circle cx="79.700" cy="93.620" r="0.400" fill="#fff"/>
-<circle cx="82.550" cy="93.620" r="0.400" fill="#fff"/>
-<circle cx="85.400" cy="91.080" r="0.400" fill="#fff"/>
-<circle cx="88.250" cy="93.620" r="0.400" fill="#fff"/>
-<circle cx="69.500" cy="96.060" r="0.400" fill="#fff"/>
-<circle cx="69.500" cy="86.000" r="0.400" fill="#fff"/>
-<circle cx="74.000" cy="96.520" r="0.400" fill="#fff"/>
-<circle cx="79.700" cy="96.520" r="0.400" fill="#fff"/>
+<circle cx="92.700" cy="62.500" r="0.600" fill="#fff"/>
+<circle cx="97.780" cy="62.500" r="0.600" fill="#fff"/>
+<circle cx="7.500" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="12.580" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="17.660" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="22.740" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="27.820" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="32.900" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="37.980" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="43.060" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="48.140" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="53.220" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="58.300" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="63.380" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="68.460" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="73.540" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="78.620" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="83.700" cy="89.900" r="0.600" fill="#fff"/>
+<circle cx="88.780" cy="89.900" r="0.600" fill="#fff"/>
 <circle cx="3.500" cy="3.500" r="0.500" fill="#fff"/>
 <circle cx="96.500" cy="3.500" r="0.500" fill="#fff"/>
-<circle cx="3.500" cy="99.500" r="0.500" fill="#fff"/>
-<circle cx="96.500" cy="99.500" r="0.500" fill="#fff"/>
-<rect x="0.15" y="0.15" width="99.70" height="102.70" fill="none" stroke="#d9a441" stroke-width="0.3"/>
+<circle cx="3.500" cy="91.500" r="0.500" fill="#fff"/>
+<circle cx="96.500" cy="91.500" r="0.500" fill="#fff"/>
+<rect x="0.15" y="0.15" width="99.70" height="94.70" fill="none" stroke="#d9a441" stroke-width="0.3"/>
 <rect x="1" y="1" width="98" height="29" fill="#2b6cb0" fill-opacity="0.13" stroke="#2b6cb0" stroke-width="0.35" stroke-dasharray="1.5 1"/>
 <text x="50.00" y="13.00" font-family="Arial,sans-serif" font-size="2" text-anchor="middle" fill="#2b6cb0" font-weight="bold">Шилд 18650 V3 (плата ≈98×29 мм) — USB-A ліворуч, край «5V / GND» донизу</text>
 <text x="50.00" y="17.50" font-family="Arial,sans-serif" font-size="1.8" text-anchor="middle" fill="#2b6cb0">три пари 5V/GND шилда стають на три пари площадок; живлення береться з правої</text>
@@ -367,7 +349,7 @@
 <text x="38.57" y="40.60" font-family="Arial,sans-serif" font-size="1.5" text-anchor="end" fill="#c00" font-weight="bold" transform="rotate(-90 38.57 40.60)">VP</text>
 <text x="41.11" y="40.60" font-family="Arial,sans-serif" font-size="1.5" text-anchor="end" fill="#123" transform="rotate(-90 41.11 40.60)">EN</text>
 <text x="5.55" y="62.80" font-family="Arial,sans-serif" font-size="1.5" text-anchor="start" fill="#c00" font-weight="bold" transform="rotate(-90 5.55 62.80)">3V3</text>
-<text x="8.09" y="62.80" font-family="Arial,sans-serif" font-size="1.5" text-anchor="start" fill="#c00" font-weight="bold" transform="rotate(-90 8.09 62.80)">GND</text>
+<text x="8.09" y="62.80" font-family="Arial,sans-serif" font-size="1.5" text-anchor="start" fill="#123" transform="rotate(-90 8.09 62.80)">GND</text>
 <text x="10.63" y="62.80" font-family="Arial,sans-serif" font-size="1.5" text-anchor="start" fill="#c00" font-weight="bold" transform="rotate(-90 10.63 62.80)">D15</text>
 <text x="13.17" y="62.80" font-family="Arial,sans-serif" font-size="1.5" text-anchor="start" fill="#123" transform="rotate(-90 13.17 62.80)">D2</text>
 <text x="15.71" y="62.80" font-family="Arial,sans-serif" font-size="1.5" text-anchor="start" fill="#c00" font-weight="bold" transform="rotate(-90 15.71 62.80)">D4</text>
@@ -411,56 +393,41 @@
 <circle cx="62" cy="51.62" r="4" fill="#335" fill-opacity="0.25" stroke="#335" stroke-width="0.3"/>
 <text x="66.60" y="52.22" font-family="Arial,sans-serif" font-size="1.5" text-anchor="start" fill="#000" font-weight="bold">C1 470µ</text>
 <text x="60.40" y="54.96" font-family="Arial,sans-serif" font-size="2.2" text-anchor="end" fill="#c00" font-weight="bold">+</text>
-<text x="95.24" y="63.10" font-family="Arial,sans-serif" font-size="1.6" text-anchor="middle" fill="#000" font-weight="bold">SPK</text>
-<rect x="75.95" y="88.00" width="1.8" height="3.6" fill="#c33" fill-opacity="0.5" stroke="#000" stroke-width="0.2"/>
-<rect x="75.95" y="88.00" width="1.8" height="0.6" fill="#000"/>
-<rect x="81.65" y="88.00" width="1.8" height="3.6" fill="#c33" fill-opacity="0.5" stroke="#000" stroke-width="0.2"/>
-<rect x="81.65" y="88.00" width="1.8" height="0.6" fill="#000"/>
-<rect x="84.30" y="87.35" width="2.2" height="2.4" fill="#e9b949" stroke="#000" stroke-width="0.2"/>
-<rect x="87.35" y="87.80" width="1.8" height="4.0" fill="#c9a66b" stroke="#000" stroke-width="0.2"/>
-<text x="76.85" y="84.40" font-family="Arial,sans-serif" font-size="1.3" text-anchor="middle" fill="#000" font-weight="bold">D2</text>
-<text x="82.55" y="84.40" font-family="Arial,sans-serif" font-size="1.3" text-anchor="middle" fill="#000" font-weight="bold">ZD</text>
-<text x="85.40" y="84.40" font-family="Arial,sans-serif" font-size="1.3" text-anchor="middle" fill="#000" font-weight="bold">C2</text>
-<text x="88.25" y="84.40" font-family="Arial,sans-serif" font-size="1.3" text-anchor="middle" fill="#000" font-weight="bold">R3</text>
-<text x="74.00" y="84.40" font-family="Arial,sans-serif" font-size="1.3" text-anchor="middle" fill="#06c" font-weight="bold">SIG</text>
-<text x="72.50" y="94.12" font-family="Arial,sans-serif" font-size="1.3" text-anchor="end" fill="#06c" font-weight="bold">PZ+</text>
-<text x="79.70" y="91.92" font-family="Arial,sans-serif" font-size="1.3" text-anchor="middle" fill="#06c" font-weight="bold">PZ−</text>
-<rect x="75.30" y="95.72" width="3.10" height="1.6" fill="#c9a66b" stroke="#000" stroke-width="0.2"/>
-<text x="81.30" y="97.02" font-family="Arial,sans-serif" font-size="1.3" text-anchor="start" fill="#000" font-weight="bold">R2 1M</text>
-<line x1="69.5" y1="96.06" x2="69.5" y2="86" stroke="#06c" stroke-width="0.6" stroke-dasharray="1 0.6"/>
-<text x="67.90" y="91.03" font-family="Arial,sans-serif" font-size="1.2" text-anchor="end" fill="#06c" font-weight="bold" transform="rotate(-90 67.90 91.03)">J2 (лише з п'єзо)</text>
-<rect x="30.10" y="84.40" width="5.30" height="5.54" fill="#06c" fill-opacity="0.07" stroke="#06c" stroke-width="0.3" stroke-dasharray="1 0.6"/>
-<text x="30.10" y="83.80" font-family="Arial,sans-serif" font-size="1.5" text-anchor="start" fill="#06c" font-weight="bold">ЗАЧИНЕНО</text>
-<text x="32.65" y="86.35" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#06c" font-weight="bold">SIG</text>
-<text x="32.65" y="88.89" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#000" font-weight="bold">GND</text>
-<rect x="36.10" y="82.50" width="5.30" height="9.98" fill="#06c" fill-opacity="0.07" stroke="#06c" stroke-width="0.3" stroke-dasharray="1 0.6"/>
-<text x="36.10" y="81.90" font-family="Arial,sans-serif" font-size="1.5" text-anchor="start" fill="#06c" font-weight="bold">SW-420</text>
-<text x="38.65" y="84.45" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#06c" font-weight="bold">DO</text>
-<text x="38.65" y="88.89" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#000" font-weight="bold">GND</text>
-<text x="38.65" y="91.43" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#c00" font-weight="bold">VCC</text>
-<rect x="42.60" y="76.80" width="10.38" height="18.22" fill="#06c" fill-opacity="0.07" stroke="#06c" stroke-width="0.3" stroke-dasharray="1 0.6"/>
-<text x="42.60" y="76.20" font-family="Arial,sans-serif" font-size="1.5" text-anchor="start" fill="#06c" font-weight="bold">LD2410C</text>
-<text x="45.15" y="82.55" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#06c" font-weight="bold">TX</text>
-<text x="47.69" y="80.65" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#06c" font-weight="bold">RX</text>
-<text x="50.23" y="78.75" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#06c" font-weight="bold">OUT</text>
-<text x="47.69" y="88.89" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#000" font-weight="bold">GND</text>
-<text x="50.23" y="93.97" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#c00" font-weight="bold">5V</text>
-<rect x="53.60" y="73.00" width="7.84" height="19.48" fill="#06c" fill-opacity="0.07" stroke="#06c" stroke-width="0.3" stroke-dasharray="1 0.6"/>
-<text x="53.60" y="72.40" font-family="Arial,sans-serif" font-size="1.5" text-anchor="start" fill="#06c" font-weight="bold">ADXL345</text>
-<text x="56.15" y="76.85" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#06c" font-weight="bold">SCL</text>
-<text x="58.69" y="74.95" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#06c" font-weight="bold">SDA</text>
-<text x="56.15" y="88.89" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#000" font-weight="bold">GND</text>
-<text x="58.69" y="88.89" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#000" font-weight="bold">SDO</text>
-<text x="56.15" y="91.43" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#c00" font-weight="bold">VCC</text>
-<text x="58.69" y="91.43" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#c00" font-weight="bold">CS</text>
-<rect x="63.10" y="86.94" width="5.30" height="10.62" fill="#06c" fill-opacity="0.07" stroke="#06c" stroke-width="0.3" stroke-dasharray="1 0.6"/>
-<text x="63.10" y="86.34" font-family="Arial,sans-serif" font-size="1.5" text-anchor="start" fill="#06c" font-weight="bold">ХОЛЛ</text>
-<text x="65.65" y="88.89" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#000" font-weight="bold">GND</text>
-<text x="65.65" y="91.43" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#c00" font-weight="bold">VCC</text>
-<text x="65.65" y="96.51" font-family="Arial,sans-serif" font-size="1.05" text-anchor="start" fill="#06c" font-weight="bold">OUT</text>
-<text x="16.00" y="101.40" font-family="Arial,sans-serif" font-size="1.6" text-anchor="start" fill="#06c" font-weight="bold">Групи датчиків: SW-420 · ADXL345 · LD2410C · Холл · «зачинено»</text>
-<text x="50.00" y="-3.50" font-family="Arial,sans-serif" font-size="2.6" text-anchor="middle" fill="#123" font-weight="bold">Вид з боку деталей · плата 100×103 мм · мідь (жовта) — на зворотному боці</text>
-<text x="50.00" y="106.60" font-family="Arial,sans-serif" font-size="1.6" text-anchor="middle" fill="#123">Кожен датчик паяється у свою групу: VCC/5V — живлення, GND — земля, решта — сигнали. ADXL345: CS і SDO вже з'єднані на платі.</text>
-<text x="50.00" y="108.90" font-family="Arial,sans-serif" font-size="1.7" text-anchor="middle" fill="#123">SW-420, ADXL345, Холл — від 3,3 В (VCC групи); радар — від 5 В. Можна ставити будь-які датчики, хоч усі одразу.</text>
-<text x="50.00" y="111.20" font-family="Arial,sans-serif" font-size="1.7" text-anchor="middle" fill="#123">П'єзо-вузол (D2 1N4148, ZD 3,3 В, C2 100 нФ, R2, R3 1 МОм): диск на PZ+/PZ−, перемичка J2 — лише замість Холла</text>
+<rect x="90.30" y="59.10" width="9.48" height="7.4" fill="#1a7f37" fill-opacity="0.22" stroke="#1a7f37" stroke-width="0.35"/>
+<text x="95.24" y="68.40" font-family="Arial,sans-serif" font-size="1.9" text-anchor="middle" fill="#1a7f37" font-weight="bold">ДИНАМІК</text>
+<rect x="5.11" y="86.50" width="14.94" height="8.50" fill="#1a7f37" fill-opacity="0.22" stroke="#1a7f37" stroke-width="0.35"/>
+<text x="12.58" y="97.60" font-family="Arial,sans-serif" font-size="2.3" font-weight="bold" text-anchor="middle" fill="#1a7f37">ХОЛЛ</text>
+<line x1="5.51" y1="95.60" x2="19.65" y2="95.60" stroke="#1a7f37" stroke-width="0.4"/>
+<rect x="20.35" y="86.50" width="25.10" height="8.50" fill="#1a7f37" fill-opacity="0.22" stroke="#1a7f37" stroke-width="0.35"/>
+<text x="32.90" y="97.60" font-family="Arial,sans-serif" font-size="2.3" font-weight="bold" text-anchor="middle" fill="#1a7f37">РАДАР</text>
+<line x1="20.75" y1="95.60" x2="45.05" y2="95.60" stroke="#1a7f37" stroke-width="0.4"/>
+<rect x="45.75" y="86.50" width="14.94" height="8.50" fill="#1a7f37" fill-opacity="0.22" stroke="#1a7f37" stroke-width="0.35"/>
+<text x="53.22" y="97.60" font-family="Arial,sans-serif" font-size="2.3" font-weight="bold" text-anchor="middle" fill="#1a7f37">SW-420</text>
+<line x1="46.15" y1="95.60" x2="60.29" y2="95.60" stroke="#1a7f37" stroke-width="0.4"/>
+<rect x="60.99" y="86.50" width="20.02" height="8.50" fill="#1a7f37" fill-opacity="0.22" stroke="#1a7f37" stroke-width="0.35"/>
+<text x="71.00" y="97.60" font-family="Arial,sans-serif" font-size="2.3" font-weight="bold" text-anchor="middle" fill="#1a7f37">ADXL345</text>
+<line x1="61.39" y1="95.60" x2="80.61" y2="95.60" stroke="#1a7f37" stroke-width="0.4"/>
+<rect x="81.31" y="86.50" width="9.86" height="8.50" fill="#1a7f37" fill-opacity="0.22" stroke="#1a7f37" stroke-width="0.35"/>
+<text x="86.24" y="97.60" font-family="Arial,sans-serif" font-size="2.3" font-weight="bold" text-anchor="middle" fill="#1a7f37">ЗАЧИНЕНО</text>
+<line x1="81.71" y1="95.60" x2="90.77" y2="95.60" stroke="#1a7f37" stroke-width="0.4"/>
+<text x="8.15" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#000" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 8.15 87.90)">GND</text>
+<text x="13.23" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#c00" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 13.23 87.90)">VCC</text>
+<text x="18.31" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#06c" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 18.31 87.90)">OUT</text>
+<text x="23.39" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#c00" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 23.39 87.90)">5V</text>
+<text x="28.47" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#06c" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 28.47 87.90)">TX</text>
+<text x="33.55" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#06c" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 33.55 87.90)">RX</text>
+<text x="38.63" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#06c" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 38.63 87.90)">OUT</text>
+<text x="43.71" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#000" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 43.71 87.90)">GND</text>
+<text x="48.79" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#000" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 48.79 87.90)">GND</text>
+<text x="53.87" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#c00" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 53.87 87.90)">VCC</text>
+<text x="58.95" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#06c" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 58.95 87.90)">DO</text>
+<text x="64.03" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#c00" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 64.03 87.90)">VCC</text>
+<text x="69.11" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#06c" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 69.11 87.90)">SDA</text>
+<text x="74.19" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#06c" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 74.19 87.90)">SCL</text>
+<text x="79.27" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#000" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 79.27 87.90)">GND</text>
+<text x="84.35" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#06c" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 84.35 87.90)">SIG</text>
+<text x="89.43" y="87.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#000" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 89.43 87.90)">GND</text>
+<text x="50.00" y="-3.50" font-family="Arial,sans-serif" font-size="2.6" text-anchor="middle" fill="#123" font-weight="bold">Вид з боку деталей · плата 100×95 мм · мідь (жовта) — на зворотному боці</text>
+<text x="50.00" y="101.20" font-family="Arial,sans-serif" font-size="1.7" text-anchor="middle" fill="#123">Гвинтові клемники KF301 / DG301, крок 5,08 мм: 3 + 5 + 3 + 4 + 2 контакти, стоять упритул уздовж нижнього краю.</text>
+<text x="50.00" y="103.50" font-family="Arial,sans-serif" font-size="1.7" text-anchor="middle" fill="#123">VCC = 3,3 В (ХОЛЛ, SW-420, ADXL345); радар живиться від 5V. На модулі ADXL345 з'єднати CS з VCC, SDO з GND.</text>
 </svg>

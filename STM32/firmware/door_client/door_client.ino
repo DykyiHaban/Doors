@@ -1,5 +1,5 @@
 /*
-  Проєкт «Двері» — STM32F411 BlackPill + датчики ривка (SW-420, ADXL345, Холл або п'єзо)
+  Проєкт «Двері» — STM32F411 BlackPill + датчики ривка (SW-420, ADXL345, датчик Холла)
   + радар LD2410C + HW-247A (DFPlayer Mini)
 
   Коли заклад зачинений і хтось смикає двері (або стоїть біля них), модуль програє /mp3/0001.mp3.
@@ -9,7 +9,7 @@
   виводиться в Serial Monitor після ввімкнення.
 
   Режим роботи — SENSOR_MODE нижче:
-    MODE_JERK  — лише ривки (SW-420 / ADXL345 / Холл або п'єзо). Радар не потрібен.
+    MODE_JERK  — лише ривки (SW-420 / ADXL345 / датчик Холла). Радар не потрібен.
     MODE_RADAR — лише радар: людина стоїть ближче RADAR_MAX_CM довше RADAR_DWELL_MS.
     MODE_BOTH  — ривки зараховуються, тільки якщо радар бачить людину поруч (найменше хибних).
     MODE_ANY   — спрацьовує будь-що: ривки або людина, що стоїть біля дверей.
@@ -20,15 +20,15 @@
     USB support:         CDC (generic 'Serial' supersede U(S)ART)   <-- обов'язково
     Upload method:       STM32CubeProgrammer (DFU) або ST-Link
 
-  Підключення (збігається з платою STM32/schemes/gen_pcb.py; кожен датчик — у свою групу площадок,
-  живлення й земля в групі вже розведені):
-    група SW-420:   DO -> PB13, VCC 3.3 В, GND
-    група ADXL345:  SDA -> PB9, SCL -> PB8 (I2C1), VCC 3.3 В, GND, CS (=3.3 В), SDO (=GND)
-    група ХОЛЛ:     OUT -> PB0, VCC 3.3 В, GND; п'єзо-вузол підключається до PB0 перемичкою J2
-    група LD2410C:  TX радара -> PA10, RX радара <- PA9 (USART1), OUT -> PB14, 5V, GND
-    група ЗАЧИНЕНО: SIG -> PB12, GND (замкнено = заклад зачинений)
-    PA2  -> RX модуля MP3 (USART2; TX модуля не потрібен)
-    PA1  <- BUSY модуля MP3 (LOW, поки грає)
+  Підключення (збігається з платою STM32/schemes/gen_pcb.py). Кожен датчик має свій гвинтовий
+  клемник на нижньому краю плати, зліва направо:
+    ХОЛЛ:     GND, VCC 3.3 В, OUT -> PA1
+    РАДАР:    RX радара <- PA2, TX радара -> PA3 (USART2), OUT -> PA4, 5V, GND
+    SW-420:   GND, VCC 3.3 В, DO -> PB12
+    ADXL345:  VCC 3.3 В, SCL -> PA8, SDA -> PB4 (I2C3), GND (на модулі з'єднати CS з VCC, SDO з GND)
+    ЗАЧИНЕНО: SIG -> PB5, GND (замкнено = заклад зачинений)
+    PB6  -> RX модуля MP3 (USART1; TX модуля не потрібен)
+    PB10 <- BUSY модуля MP3 (LOW, поки грає)
     PC13 -- вбудований світлодіод (світиться, поки грає повідомлення)
 
   Картка microSD: FAT32, файл /mp3/0001.mp3
@@ -47,24 +47,24 @@ const SensorMode SENSOR_MODE = MODE_JERK;   // див. опис угорі фа�
 // ---------- Які датчики ривка опитувати ----------
 const bool USE_SW420  = true;    // без модуля вхід підтягнутий до 3.3 В і мовчить — можна лишати true
 const bool USE_ADXL   = true;    // визначається автоматично; якщо не знайдено — просто не використовується
-const bool USE_ANALOG = false;   // Холл / п'єзо: вмикати ТІЛЬКИ якщо датчик підключено (інакше вхід «плаває»)
+const bool USE_ANALOG = false;   // клемник ХОЛЛ: вмикати ТІЛЬКИ якщо датчик підключено (інакше вхід «плаває»)
 // Скільки РІЗНИХ датчиків мають помітити той самий удар, щоб він рахувався ривком.
 // 1 — вистачить будь-якого; 2 — потрібна згода двох (менше хибних, якщо стоять кілька датчиків).
 const uint8_t  JERK_SENSORS_AGREE = 1;
 const uint32_t JERK_MERGE_MS      = 300;   // спрацювання різних датчиків у цьому вікні — один і той самий удар
 
 // ---------- Піни ----------
-#define PIN_ANALOG    PB0              // Холл або SIG п'єзо-вузла (через J2)
-#define PIN_SW420     PB13
-#define PIN_SDA       PB9              // I2C1
-#define PIN_SCL       PB8
-#define PIN_MP3_BUSY  PA1
-#define PIN_ARMED     PB12
+#define PIN_ANALOG    PA1              // клемник ХОЛЛ, OUT
+#define PIN_SW420     PB12
+#define PIN_SDA       PB4              // I2C3
+#define PIN_SCL       PA8
+#define PIN_MP3_BUSY  PB10
+#define PIN_ARMED     PB5
 #define PIN_LED       PC13
-#define PIN_RADAR_OUT PB14
+#define PIN_RADAR_OUT PA4
 
-HardwareSerial mp3Serial(PA3, PA2);    // RX, TX (USART2); RX (PA3) на платі не розведений — не потрібен
-HardwareSerial radarSerial(PA10, PA9); // RX, TX (USART1)
+HardwareSerial mp3Serial(PB7, PB6);    // RX, TX (USART1); RX (PB7) на платі не розведений — не потрібен
+HardwareSerial radarSerial(PA3, PA2);  // RX, TX (USART2)
 
 // ---------- Загальні налаштування (підбираються на реальних дверях) ----------
 const uint8_t  JERKS_TO_TRIGGER = 2;       // скільки ривків потрібно
@@ -80,7 +80,7 @@ const uint32_t SAMPLE_MS        = 5;       // 200 вимірів на секун
 const float    BASE_ALPHA       = 0.001f;  // повільна базова лінія (~5 с)
 const float    BASE_ALPHA_QUICK = 0.05f;   // швидке підлаштування бази (старт, пауза)
 
-// ---------- Холл / п'єзо ----------
+// ---------- Датчик Холла (аналоговий вхід) ----------
 const float    ANALOG_THRESHOLD = 40.0f;   // відхилення від базової лінії, одиниці АЦП (0..4095)
 const float    ANALOG_ALPHA     = 0.25f;   // згладжування шуму
 
@@ -126,7 +126,7 @@ enum SensorId { S_SW420, S_ADXL, S_ANALOG, S_COUNT };
 uint32_t sensorFiredAt[S_COUNT] = { 0, 0, 0 };
 bool     sensorActive[S_COUNT]  = { false, false, false };
 
-// Детектор для аналогових сигналів (Холл/п'єзо і ADXL345): швидке значення, повільна база, поріг
+// Детектор для аналогових сигналів (Холл і ADXL345): швидке значення, повільна база, поріг
 struct Detector {
   float    alpha, thr;
   float    fast = 0, base = 0, dev = 0;
@@ -272,7 +272,7 @@ void radarUpdate(uint32_t now) {
     if (digitalRead(PIN_RADAR_OUT) == HIGH) radarSeenAt = now;
     if (!radarSilentReported && now > 10000) {
       radarSilentReported = true;
-      Serial.println(F("# Радар не надсилає даних: перевірте групу LD2410C (TX радара -> PA10) і живлення 5 В. Працюю за OUT."));
+      Serial.println(F("# Радар не надсилає даних: перевірте клемник РАДАР (TX радара -> PA3) і живлення 5 В. Працюю за OUT."));
     }
   }
   bool p = radarSeenAt && now - radarSeenAt < RADAR_GAP_MS;
@@ -457,10 +457,10 @@ void setup() {
   Serial.print(F("# Датчики:"));
   if (sensorActive[S_SW420])  Serial.print(F(" SW-420 (якщо підключено)"));
   if (sensorActive[S_ADXL])   Serial.print(F(" ADXL345"));
-  if (sensorActive[S_ANALOG]) Serial.print(F(" Холл/п'єзо"));
+  if (sensorActive[S_ANALOG]) Serial.print(F(" Холл"));
   if (RADAR_USED)             Serial.print(radarFound ? F(" радар") : F(" радар-НЕ-відповідає"));
   Serial.println();
-  if (USE_ADXL && !sensorActive[S_ADXL]) Serial.println(F("# ADXL345 не знайдено (група ADXL345: SDA->PB9, SCL->PB8, VCC 3.3 В)"));
+  if (USE_ADXL && !sensorActive[S_ADXL]) Serial.println(F("# ADXL345 не знайдено (клемник ADXL345: SDA->PB4, SCL->PA8; на модулі CS до VCC, SDO до GND)"));
   if (SENSOR_MODE != MODE_RADAR && !sensorActive[S_SW420] && !sensorActive[S_ADXL] && !sensorActive[S_ANALOG])
     Serial.println(F("# Увага: жоден датчик ривка не ввімкнено"));
 
