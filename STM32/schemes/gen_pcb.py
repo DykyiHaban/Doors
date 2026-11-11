@@ -6,7 +6,7 @@
 import math, itertools, os
 
 # ---------------- ПАРАМЕТРИ (звір штангенциркулем зі своїми модулями) ----------------
-BOARD_W, BOARD_H = 100.0, 86.0
+BOARD_W, BOARD_H = 100.0, 100.0
 P = 2.54
 BP_X0, BP_YT = 10.2, 39.0        # перший пін верхнього ряду BlackPill (біля USB); ліворуч — канал для 6 доріжок
 BP_ROW = 15.24                    # відстань між рядами BlackPill
@@ -123,7 +123,8 @@ ROW = [  # (блок, підпис контакту, коло) — зліва н
 tx = [TB_X0 + i * TB_P for i in range(len(ROW))]
 for (blk, lab, net), x in zip(ROW, tx):
     pad(x, Y_ROW, net, PAD_T, HOLE_T, lab)
-LV0, LVP = Y_ROW - 2.4, 1.45              # рівень найнижчої смуги і крок смуг
+LBL_Y0, LBL_CAP, LBL_LEN = Y_ROW - 1.9, 1.3, 13.8   # підписи на міді: низ тексту, висота літер, найдовший підпис
+LV0, LVP = LBL_Y0 - LBL_LEN - 0.9, 1.45   # рівень найнижчої смуги і крок смуг (між смугами і клемами — підписи)
 Y_B1, Y_B2 = Y_ROW + 2.4, Y_ROW + 3.9      # під рядом: відрізки 3,3 В і шина GND
 
 
@@ -137,11 +138,11 @@ def between(i):                            # середина проміжку �
 
 # лівий канал: верхні ніжки -> угору -> ліворуч -> лівим краєм униз -> своя смуга -> клема.
 # Що правіша ніжка, то вище поворот, лівіше спуск і нижча смуга, тож доріжки не перетинаються.
-g1, g2 = between(5), between(6)
+g1, g2 = between(5) - 0.33, between(6) + 0.33   # розсунуті, щоб біля клеми «5V» вмістився підпис
 CH = [  # (коло, ніжка, висота повороту, x спуску, ширина, рівень смуги, куди)
     ("ANA", "T_A1", 23.1, 1.0, W_SIG, 0, tx[2]), ("RRX", "T_A2", 24.6, 2.4, W_SIG, 1, tx[3]),
     ("RTX", "T_A3", 26.1, 3.8, W_SIG, 2, tx[4]), ("ROUT", "T_A4", 30.1, 5.2, W_SIG, 3, tx[5]),
-    ("V3", "T_3V3", 31.6, 6.6, W_SIG, 4, g1), ("P5Z", "T_5V", 33.2, 8.1, W_PWR, 5, tx[6])]
+    ("V3", "T_3V3", 31.6, 6.6, W_SIG, 4, g1), ("P5Z", "T_5V", 33.2, 8.1, W_SIG, 5, tx[6])]
 for net, key, yt, xc, w, k, xe in CH:
     xs = bp[key]
     track(net, w, (xs, BRK_T), (xs, yt), (xc, yt), (xc, lv(k)), (xe, lv(k)), (xe, Y_B1 if net == "V3" else Y_ROW))
@@ -164,6 +165,26 @@ track("GND", W_PWR, (xG, DF_YB), (xG, 65.5), (X_GR, 65.5), (X_GR, Y_B2), (tx[0],
 for (blk, lab, net), x in zip(ROW, tx):
     if net == "GND":
         track("GND", W_PWR, (x, Y_B2), (x, Y_ROW))
+
+# ---------------- підписи клем на міді ----------------
+# Текст іде знизу вгору, у файлі він дзеркальний — на міді (з боку пайки) читається нормально.
+# Кожен підпис стоїть упритул до доріжки своєї клеми: R — праворуч від неї, L — ліворуч,
+# C — над клемою без доріжки згори (GND і частина VCC підведені знизу), r — праворуч дрібніше.
+# Назви блоків: HALL — датчик Холла, RADAR — LD2410C, SW420, ADXL — ADXL345, LOCK — контакт «зачинено».
+PINPOS = "C C L L L L r C C R R C R R C R C".split()
+NAMES = [("HALL", 0, -2.7), ("RADAR", 3, 0.96), ("SW420", 8, 1.3), ("ADXL", 11, 1.3), ("LOCK", 15, -2.26)]
+LABELS = []   # (текст, x лівого краю, висота літер, відступ угору від LBL_Y0)
+OFFS = {"C": (-0.65, LBL_CAP), "L": (-2.26, LBL_CAP), "R": (0.96, LBL_CAP), "r": (0.91, 1.05)}   # r — «5V» між двома доріжками 3,3 В, дрібніше
+for (blk, lab, net), x, pos in zip(ROW, tx, PINPOS):
+    dx, cap = OFFS[pos]
+    LABELS.append((lab, x + dx, cap, 0.0))
+NAME_DY = 4.6                              # назва блоку стоїть над підписом першого контакту блоку
+for name, i, _ in NAMES:
+    LABELS.append(("[%s]" % name, tx[i] + OFFS[PINPOS[i]][0], LBL_CAP, NAME_DY))
+
+
+def label_len(text, cap):                  # довжина напису з запасом (жирний Helvetica/Arial)
+    return len(text) * cap * 1.0
 
 # кріпильні отвори плати (М3)
 MOUNT = [(3.0, 3.0), (97.0, 3.0), (3.5, BOARD_H - 3.5), (96.5, BOARD_H - 3.5)]
@@ -208,6 +229,9 @@ def gap(a, b):
 
 
 prims = pads + segs
+for n, (text, xl, cap, dy) in enumerate(LABELS):
+    prims.append(dict(x1=xl + cap / 2, y1=LBL_Y0 - dy - cap / 2, x2=xl + cap / 2,
+                      y2=LBL_Y0 - dy - label_len(text, cap) + cap / 2, w=cap, net="lbl%d" % n))
 errors, worst = [], (99, None, None)
 for a, b in itertools.combinations(prims, 2):
     if a["net"] != b["net"]:
@@ -240,7 +264,7 @@ for p in prims:
     if min(xs) - r < 0.6 or max(xs) + r > BOARD_W - 0.6 or min(ys) - r < 0.6 or max(ys) + r > BOARD_H - 0.6:
         errors.append("ЗА КРАЄМ: %s" % p)
 print("Найменший зазор між різними колами: %.2f мм (%s / %s)" % (worst[0], worst[1]["net"], worst[2]["net"]))
-print("Кіл з доріжками:", sorted(n for n in nets if not n.startswith(("bp", "df", "mnt", "shm"))))
+print("Кіл з доріжками:", sorted(n for n in nets if not n.startswith(("bp", "df", "mnt", "shm", "lbl"))))
 if errors:
     print("\n".join(errors)); raise SystemExit("ПОМИЛКИ ТРАСУВАННЯ")
 print("Перевірки пройдено: перетинів немає, зазори >= %.1f мм, усі кола з'єднані." % CLEAR_MIN)
@@ -263,6 +287,9 @@ def copper_svg(color="#000", hole="#fff", with_text=True):
     if with_text:  # дзеркальний напис: на міді читатиметься нормально
         o.append('<text transform="translate(60,17) scale(-1,1)" font-family="Arial,Helvetica,sans-serif" '
                  'font-weight="bold" font-size="6" fill="%s">%s</text>' % (color, LABEL))
+        for text, xl, cap, dy in LABELS:
+            o.append('<text transform="matrix(0,-1,-1,0,%.3f,%.3f)" font-family="Arial,Helvetica,sans-serif" '
+                     'font-weight="bold" font-size="%.3f" fill="%s">%s</text>' % (xl, LBL_Y0 - dy, cap / 0.716, color, text))
     return "\n".join(o)
 
 
@@ -395,6 +422,8 @@ for p in pads:
 c.append("0 g 0.3 w 0 J 0 j 0.15 0.15 %.2f %.2f re S" % (BOARD_W - 0.3, BOARD_H - 0.3))
 # дзеркальний напис на міді
 c.append("BT /F1 6 Tf -1 0 0 -1 60 17 Tm (%s) Tj ET" % LABEL)
+for text, xl, cap, dy in LABELS:
+    c.append("BT /F1 %.3f Tf 0 -1 1 0 %.3f %.3f Tm (%s) Tj ET" % (cap / 0.716, xl, LBL_Y0 - dy, text))
 # лінійка та підписи (звичайний текст)
 ry = BOARD_H + 8
 c.append("0.3 w 0 %g m 50 %g l S" % (ry, ry))
