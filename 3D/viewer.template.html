@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Двері — плати в 3D</title>
+<style>
+html,body{margin:0;height:100%;background:#12151c;color:#dde;font:14px system-ui,sans-serif;overflow:hidden}
+#ui{position:fixed;top:10px;left:10px;display:flex;gap:6px;flex-wrap:wrap;z-index:2}
+button{background:#232938;color:#dde;border:1px solid #3a4258;border-radius:6px;padding:6px 10px;cursor:pointer}
+button.on{background:#3b6fd4;border-color:#5b8ff0}
+#info{position:fixed;bottom:10px;left:10px;opacity:.8;font-size:12px}
+</style></head><body>
+<div id="ui">
+ <button data-v="both" class="on">Обидві</button><button data-v="stm32">STM32</button><button data-v="tg">TG (ESP32)</button>
+ <button id="flip">Перевернути (мідь / деталі)</button><button id="rot" class="on">Обертання</button>
+</div>
+<div id="info">Ліва кнопка — крутити · колесо — масштаб · права — рух. Однакові 100×109 мм, отвори M3 по кутах (3,5 мм від країв).</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+const DATA = /*DATA*/;
+const scene=new THREE.Scene(); scene.background=new THREE.Color(0x12151c);
+const cam=new THREE.PerspectiveCamera(40,innerWidth/innerHeight,1,2000); cam.position.set(0,230,200);
+const ren=new THREE.WebGLRenderer({antialias:true}); ren.setSize(innerWidth,innerHeight); ren.setPixelRatio(devicePixelRatio); document.body.appendChild(ren.domElement);
+const ctl=new THREE.OrbitControls(cam,ren.domElement); ctl.autoRotate=true; ctl.autoRotateSpeed=1.2;
+scene.add(new THREE.HemisphereLight(0xffffff,0x334,0.9)); const dl=new THREE.DirectionalLight(0xffffff,0.8); dl.position.set(80,200,120); scene.add(dl);
+const T=1.6;
+function label(text,size,color){const c=document.createElement('canvas');c.width=512;c.height=96;const g=c.getContext('2d');g.fillStyle=color||'#fff';g.font='bold 54px Arial';g.textAlign='center';g.textBaseline='middle';g.fillText(text,256,48);
+ const m=new THREE.Mesh(new THREE.PlaneGeometry(size*5.33,size),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),transparent:true}));m.rotation.x=-Math.PI/2;return m;}
+const NAMES={shield:'Шилд 18650',mcu:'MCU',df:'DFPlayer'};
+function build(d,mcuName){
+ const grp=new THREE.Group(), W=d.W,H=d.H, X=x=>x-W/2, Z=y=>y-H/2;
+ // плата з отворами
+ const sh=new THREE.Shape(); sh.moveTo(-W/2,-H/2);sh.lineTo(W/2,-H/2);sh.lineTo(W/2,H/2);sh.lineTo(-W/2,H/2);sh.closePath();
+ const holes=[]; d.pads.forEach(p=>{const h=new THREE.Path();h.absarc(p.x-W/2,p.y-H/2,p.hole/2,0,Math.PI*2,true);sh.holes.push(h);});
+ const geo=new THREE.ExtrudeGeometry(sh,{depth:T,bevelEnabled:false,curveSegments:10});
+ const board=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:0x1d6b3a,roughness:.6}));
+ board.rotation.x=Math.PI/2; board.position.y=0; grp.add(board); // top at y=0 ... depth goes to +y after rotation; shift
+ board.position.y=0; board.scale.set(1,1,1);
+ // після rotation.x=+90°: z -> -y? перевіримо: extrude вздовж +z, після rot.x=90° йде у -y? => плата від y=0 до y=-T
+ // міль
+ const cu=new THREE.MeshStandardMaterial({color:0xd9a441,metalness:.6,roughness:.35});
+ const cuY=-T-0.05;
+ d.segs.forEach(s=>{const dx=s.x2-s.x1,dy=s.y2-s.y1,L=Math.hypot(dx,dy)+s.w;const m=new THREE.Mesh(new THREE.BoxGeometry(L,0.05,s.w),cu);
+   m.position.set(X((s.x1+s.x2)/2),cuY,Z((s.y1+s.y2)/2));m.rotation.y=-Math.atan2(dy,dx);grp.add(m);});
+ d.pads.forEach(p=>{[0,1].forEach(side=>{const r=new THREE.Mesh(new THREE.RingGeometry(p.hole/2,p.d/2,20),new THREE.MeshStandardMaterial({color:0xd9a441,metalness:.6,roughness:.35,side:THREE.DoubleSide}));
+   r.rotation.x=-Math.PI/2;r.position.set(X(p.x),side?0.03:cuY,Z(p.y));grp.add(r);});});
+ // деталі
+ d.boxes.forEach(b=>{const m=new THREE.Mesh(new THREE.BoxGeometry(b.w,b.z,b.h),new THREE.MeshStandardMaterial({color:b.c,roughness:.5,transparent:b.k==='shield',opacity:b.k==='shield'?.55:1}));
+   m.position.set(X(b.x+b.w/2),b.z/2+0.05,Z(b.y+b.h/2));grp.add(m);
+   const nm=b.name||(b.k==='mcu'?mcuName:NAMES[b.k]); if(nm){const l=label(nm,b.k==='term'?3:5,b.k==='term'?'#fff':'#ccd');l.position.set(X(b.x+b.w/2),b.z+0.2,Z(b.y+b.h/2));grp.add(l);}
+   if(b.k==='term'){const n=Math.round(b.w/5.08);for(let i=1;i<n;i++){const l=new THREE.Mesh(new THREE.BoxGeometry(0.15,0.2,b.h),new THREE.MeshBasicMaterial({color:0x0a3d1c}));l.position.set(X(b.x+i*b.w/n),b.z+0.1,Z(b.y+b.h/2));grp.add(l);}}});
+ // шовкографія
+ const silk=new THREE.MeshBasicMaterial({color:0xffffff});
+ d.silk.forEach(s=>{const dx=s.x2-s.x1||0,dy=s[3]-s[1];});
+ d.silk.forEach(s=>{const [x1,y1,x2,y2]=s;const L=Math.hypot(x2-x1,y2-y1);const m=new THREE.Mesh(new THREE.BoxGeometry(L,0.06,0.5),silk);
+   m.position.set(X((x1+x2)/2),0.06,Z((y1+y2)/2));m.rotation.y=-Math.atan2(y2-y1,x2-x1);grp.add(m);});
+ // монтажні отвори — металеві кільця вже є у pads; рамка контуру шовкографії
+ return grp;}
+const A=build(DATA.stm32,'BlackPill STM32'), B=build(DATA.tg,'ESP32 DevKit');
+A.position.x=-60; B.position.x=60; scene.add(A,B);
+const views={both:[A,B],stm32:[A],tg:[B]};
+document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-v]').forEach(x=>x.classList.toggle('on',x===b));
+ const v=b.dataset.v; A.visible=B.visible=false; views[v].forEach(g=>g.visible=true);
+ A.position.x=v==='both'?-60:0;B.position.x=v==='both'?60:0; cam.position.set(0,v==='both'?230:150,v==='both'?200:140);ctl.target.set(0,0,0);});
+let flipped=false; document.getElementById('flip').onclick=()=>{flipped=!flipped;[A,B].forEach(g=>g.rotation.z=flipped?Math.PI:0);};
+document.getElementById('rot').onclick=e=>{ctl.autoRotate=!ctl.autoRotate;e.target.classList.toggle('on',ctl.autoRotate);};
+addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();ren.setSize(innerWidth,innerHeight);});
+(function loop(){requestAnimationFrame(loop);ctl.update();ren.render(scene,cam);})();
+</script></body></html>
