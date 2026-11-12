@@ -6,7 +6,7 @@
 import math, itertools, os
 
 # ---------------- ПАРАМЕТРИ (звір штангенциркулем зі своїми модулями) ----------------
-BOARD_W, BOARD_H = 100.0, 100.0
+BOARD_W, BOARD_H = 100.0, 109.0
 P = 2.54
 BP_X0, BP_YT = 10.2, 39.0        # перший пін верхнього ряду BlackPill (біля USB); ліворуч — канал для 6 доріжок
 BP_ROW = 15.24                    # відстань між рядами BlackPill
@@ -187,7 +187,7 @@ def label_len(text, cap):                  # довжина напису з за
     return len(text) * cap * 1.0
 
 # кріпильні отвори плати (М3)
-MOUNT = [(3.0, 3.0), (97.0, 3.0), (3.5, BOARD_H - 3.5), (96.5, BOARD_H - 3.5)]
+MOUNT = [(3.5, 3.5), (96.5, 3.5), (3.5, BOARD_H - 3.5), (96.5, BOARD_H - 3.5)]
 for k, (x, y) in enumerate(MOUNT):
     pad(x, y, "mnt%d" % k, 4.4, 1.0, "")
 
@@ -381,6 +381,16 @@ for n, (blk, i0, i1) in enumerate(blocks):
              'text-anchor="middle" fill="#1a7f37">%s</text>' % ((x0 + x1) / 2, BOARD_H + 2.6, blk))
     a.append('<line x1="%.2f" y1="%.2f" x2="%.2f" y2="%.2f" stroke="#1a7f37" stroke-width="0.4"/>'
              % (x0 + 0.4, BOARD_H + 0.6, x1 - 0.4, BOARD_H + 0.6))
+# шовкографія: лінії-роздільники між окремими датчиками (на боці деталей)
+SILK = []
+for n, (blk, i0, i1) in enumerate(blocks):
+    if n:
+        xd = tx[i0] - TB_P / 2
+        SILK.append((xd, BOARD_H - 0.8, xd, Y_ROW - 21.0))
+        a.append('<line x1="%.2f" y1="%.2f" x2="%.2f" y2="%.2f" stroke="#222" stroke-width="0.4"/>' % SILK[-1])
+xl, xr = tx[0] - TB_P / 2 + 0.15, tx[-1] + TB_P / 2 - 0.15
+SILK.append((xl, Y_ROW - 21.0, xr, Y_ROW - 21.0))
+a.append('<line x1="%.2f" y1="%.2f" x2="%.2f" y2="%.2f" stroke="#222" stroke-width="0.4"/>' % SILK[-1])
 for (blk, lab, net), x in zip(ROW, tx):
     a.append('<text x="%.2f" y="%.2f" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" '
              'text-anchor="start" fill="%s"%s transform="rotate(-90 %.2f %.2f)">%s</text>'
@@ -449,3 +459,13 @@ for o in offs:
 pdf += b"trailer\n<< /Size %d /Root 1 0 R >>\nstartxref\n%d\n%%%%EOF\n" % (len(objs) + 1, xref)
 open(os.path.join(OUT, "pcb_LUT_A4.pdf"), "wb").write(pdf)
 print("Готово: pcb_LUT_A4.pdf, pcb_copper_print.svg, pcb_assembly.svg")
+
+# ---------------- дані для 3D-перегляду ----------------
+import json
+BOXES = [dict(k="shield", x=1, y=1, w=98, h=SH_EDGE - 1, z=8, c="#2b6cb0"),
+         dict(k="mcu", x=bx0, y=BP_YT - 2.8, w=bx1 - bx0, h=BP_ROW + 5.6, z=6, c="#1d1f2b"),
+         dict(k="df", x=dx0, y=DF_YT - 1.1, w=20, h=20, z=4, c="#0a7a55")]
+for blk, i0, i1 in blocks:
+    BOXES.append(dict(k="term", x=tx[i0] - TB_P / 2 + 0.15, y=Y_ROW - 3.4, w=tx[i1] - tx[i0] + TB_P - 0.3, h=BOARD_H - Y_ROW + 3.4, z=10, c="#1a7f37", name=blk))
+json.dump(dict(W=BOARD_W, H=BOARD_H, boxes=BOXES, silk=SILK, mount=MOUNT,
+               pads=[p for p in pads], segs=segs), open(os.path.join(OUT, "board3d_stm32.json"), "w"))

@@ -410,6 +410,11 @@
 <rect x="81.31" y="100.50" width="9.86" height="8.50" fill="#1a7f37" fill-opacity="0.22" stroke="#1a7f37" stroke-width="0.35"/>
 <text x="86.24" y="111.60" font-family="Arial,sans-serif" font-size="2.3" font-weight="bold" text-anchor="middle" fill="#1a7f37">ЗАЧИНЕНО</text>
 <line x1="81.71" y1="109.60" x2="90.77" y2="109.60" stroke="#1a7f37" stroke-width="0.4"/>
+<line x1="20.20" y1="108.20" x2="20.20" y2="82.90" stroke="#222" stroke-width="0.4"/>
+<line x1="45.60" y1="108.20" x2="45.60" y2="82.90" stroke="#222" stroke-width="0.4"/>
+<line x1="60.84" y1="108.20" x2="60.84" y2="82.90" stroke="#222" stroke-width="0.4"/>
+<line x1="81.16" y1="108.20" x2="81.16" y2="82.90" stroke="#222" stroke-width="0.4"/>
+<line x1="5.11" y1="82.90" x2="91.17" y2="82.90" stroke="#222" stroke-width="0.4"/>
 <text x="8.15" y="101.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#000" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 8.15 101.90)">GND</text>
 <text x="13.23" y="101.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#c00" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 13.23 101.90)">VCC</text>
 <text x="18.31" y="101.90" font-family="Arial,sans-serif" font-size="1.9" font-weight="bold" text-anchor="start" fill="#06c" stroke="#fff" stroke-width="0.5" paint-order="stroke" stroke-linejoin="round" transform="rotate(-90 18.31 101.90)">OUT</text>
